@@ -2,1025 +2,1533 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TBSM Digital - SMKN 6 Balikpapan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TEKNISI — Modul Digital TSM SMKN 6 Balikpapan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Georgia, serif; background: #111; color: #f0f0f0; min-height: 100vh; }
-  body.light { background: #f5f5f5; color: #111; }
+:root {
+  --red: #CC0000;
+  --red-2: #A30000;
+  --red-tint: #FFF1F1;
+  --red-line: #FFD6D6;
+  --ink: #0A0A0A;
+  --ink-2: #3F3F46;
+  --gray-1: #71717A;
+  --gray-2: #A1A1AA;
+  --gray-3: #D4D4D8;
+  --gray-4: #E4E4E7;
+  --gray-5: #F4F4F5;
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --green: #15803D;
+  --amber: #B45309;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.5;
+  min-height: 100vh; padding-bottom: 76px; font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; cursor: pointer; }
 
-  /* NAV */
-  #navbar {
-    position: sticky; top: 0; z-index: 100;
-    background: #CC0000; display: flex; align-items: center;
-    justify-content: space-between; padding: 0 16px; height: 52px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  }
-  .nav-brand { display: flex; align-items: center; gap: 10px; }
-  .nav-title { color: #fff; font-weight: 900; font-size: 13px; letter-spacing: 1px; }
-  .nav-sub { color: rgba(255,255,255,0.7); font-size: 9px; letter-spacing: 1.5px; }
-  .nav-btns { display: flex; gap: 4px; }
-  .nav-btn {
-    background: transparent; border: none; color: #fff;
-    padding: 6px 10px; cursor: pointer; font-size: 16px; border-radius: 8px;
-    transition: background 0.2s;
-  }
-  .nav-btn.active { background: rgba(255,255,255,0.25); }
+/* ============ HEADER ============ */
+.app-header {
+  position: sticky; top: 0; z-index: 90;
+  background: var(--surface); border-bottom: 1px solid var(--gray-4);
+  padding: 14px 16px 12px;
+}
+.brand-row { display: flex; align-items: center; gap: 10px; max-width: 480px; margin: 0 auto; }
+.brand-mark {
+  width: 32px; height: 32px; background: var(--ink); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; flex-shrink: 0;
+}
+.brand-mark::before { content: ''; position: absolute; left: 5px; top: 5px; width: 6px; height: 22px; background: var(--red); border-radius: 1px; }
+.brand-mark::after { content: 'T'; font-weight: 900; font-size: 17px; color: #fff; letter-spacing: -1px; padding-left: 8px; }
+.brand-text { flex: 1; min-width: 0; }
+.brand-name {
+  font-weight: 900; font-size: 17px; letter-spacing: -0.5px; color: var(--ink);
+  line-height: 1;
+}
+.brand-name .dot { color: var(--red); }
+.brand-sub {
+  font-size: 10px; color: var(--gray-1); letter-spacing: 0.4px;
+  text-transform: uppercase; font-weight: 600; margin-top: 3px;
+}
 
-  /* PAGES */
-  .page { display: none; padding: 16px; }
-  .page.active { display: block; }
+/* ============ PAGE ============ */
+.page { display: none; max-width: 480px; margin: 0 auto; padding: 0 16px; }
+.page.active { display: block; }
 
-  /* CARDS */
-  .card {
-    background: #1c1c1c; border: 1px solid #333; border-radius: 14px; padding: 16px;
-  }
-  body.light .card { background: #fff; border-color: #ddd; }
-  .card-red {
-    background: linear-gradient(135deg, #990000, #CC0000);
-    border-radius: 16px; padding: 24px; color: #fff; text-align: center;
-  }
+/* Back button */
+.back-btn {
+  background: none; border: none; color: var(--red); padding: 16px 0 8px;
+  font-size: 13px; font-weight: 700; display: inline-flex; align-items: center;
+  gap: 6px; margin-left: -4px;
+}
+.back-btn:hover { opacity: 0.7; }
 
-  /* HOME GRID */
-  .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
-  .home-card {
-    background: #1c1c1c; border: 1px solid #333; border-radius: 14px; padding: 16px;
-    cursor: pointer; text-align: left; transition: all 0.2s; width: 100%;
-  }
-  body.light .home-card { background: #fff; border-color: #ddd; }
-  .home-card:hover { border-color: #CC0000; transform: translateY(-1px); }
-  .home-card .hc-icon { font-size: 28px; margin-bottom: 6px; }
-  .home-card .hc-title { font-weight: 800; font-size: 13px; color: #f0f0f0; }
-  body.light .home-card .hc-title { color: #111; }
-  .home-card .hc-sub { font-size: 11px; color: #888; margin-top: 3px; }
+/* ============ HOME HERO ============ */
+.hero-card {
+  margin-top: 16px; background: var(--ink); color: #fff;
+  border-radius: var(--r-lg); padding: 22px 20px; position: relative; overflow: hidden;
+}
+.hero-bg-illustration {
+  position: absolute; right: -10px; bottom: -10px; width: 220px; height: 140px;
+  opacity: 0.18; pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: #FCA5A5; text-transform: uppercase; margin-bottom: 6px;
+}
+.hero-h1 {
+  font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.15;
+  position: relative; z-index: 1;
+}
+.hero-h1 .accent { color: var(--red); }
+.hero-meta { font-size: 12px; color: var(--gray-3); margin-top: 8px; position: relative; z-index: 1; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; position: relative; z-index: 1; }
+.hero-tag {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px; padding: 4px 10px; font-size: 10px; font-weight: 600;
+  color: #fff; letter-spacing: 0.2px;
+}
 
-  /* SYSTEM LIST */
-  .sys-item {
-    display: flex; align-items: center; gap: 10px; padding: 10px;
-    border-radius: 10px; margin-bottom: 6px; background: #242424; cursor: pointer;
-    transition: background 0.2s;
-  }
-  body.light .sys-item { background: #f0f0f0; }
-  .sys-item:hover { background: #2a2a2a; }
-  body.light .sys-item:hover { background: #e8e8e8; }
-  .sys-arrow { margin-left: auto; color: #CC0000; font-size: 18px; }
+/* ============ HOME STATS ============ */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.stat-tile {
+  background: var(--surface); border: 1px solid var(--gray-4);
+  border-radius: var(--r-md); padding: 14px; text-align: left;
+}
+.stat-tile .ic { color: var(--red); margin-bottom: 8px; display: block; }
+.stat-tile .num { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: var(--ink); line-height: 1; }
+.stat-tile .lbl { font-size: 11px; color: var(--gray-1); margin-top: 4px; font-weight: 500; }
 
-  /* MOTOR TOGGLE */
-  .motor-toggle {
-    background: #1c1c1c; border-bottom: 1px solid #333;
-    padding: 10px 16px; display: flex; gap: 8px; position: sticky; top: 52px; z-index: 50;
-  }
-  body.light .motor-toggle { background: #fff; border-color: #ddd; }
-  .motor-btn {
-    background: #242424; color: #888; border: none; border-radius: 20px;
-    padding: 6px 14px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s;
-  }
-  body.light .motor-btn { background: #f0f0f0; }
-  .motor-btn.active { background: #CC0000; color: #fff; }
+/* Progress card */
+.progress-card {
+  background: var(--surface); border: 1px solid var(--gray-4);
+  border-radius: var(--r-md); padding: 16px; margin-top: 14px;
+}
+.pc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.pc-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.pc-date { font-size: 11px; color: var(--gray-1); font-weight: 500; }
+.pc-row { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--gray-5); }
+.pc-row:first-of-type { border-top: none; }
+.pc-row .ic-box {
+  width: 32px; height: 32px; background: var(--red-tint); color: var(--red);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.pc-row .lbl { font-size: 12px; font-weight: 600; flex: 1; }
+.pc-row .val { font-size: 13px; font-weight: 800; color: var(--ink); }
 
-  /* SYSTEM TABS */
-  .sys-tabs {
-    display: flex; overflow-x: auto; background: #1c1c1c;
-    border-bottom: 1px solid #333; padding: 0 8px; gap: 2px;
-    scrollbar-width: none; position: sticky; top: 94px; z-index: 49;
-  }
-  body.light .sys-tabs { background: #fff; border-color: #ddd; }
-  .sys-tabs::-webkit-scrollbar { display: none; }
-  .sys-tab {
-    background: transparent; border: none; border-bottom: 3px solid transparent;
-    color: #888; padding: 10px 12px; font-size: 10px; font-weight: 700;
-    cursor: pointer; white-space: nowrap; letter-spacing: 0.5px; font-family: Georgia, serif;
-    transition: all 0.2s;
-  }
-  .sys-tab.active { color: #CC0000; border-bottom-color: #CC0000; }
+/* Section heading */
+.sec-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin: 22px 0 10px;
+}
+.sec-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--gray-1); text-transform: uppercase; }
+.sec-link { font-size: 11px; color: var(--red); font-weight: 700; background: none; border: none; }
 
-  /* COMP GRID */
-  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-  .comp-card {
-    background: #1c1c1c; border: 1px solid #333; border-radius: 14px; padding: 14px 12px;
-    cursor: pointer; text-align: left; transition: all 0.2s; width: 100%;
-  }
-  body.light .comp-card { background: #fff; border-color: #ddd; }
-  .comp-card:hover { border-color: #CC0000; }
-  .comp-card .cc-icon { font-size: 26px; margin-bottom: 6px; }
-  .comp-card .cc-name { font-weight: 800; font-size: 11px; color: #f0f0f0; line-height: 1.3; }
-  body.light .comp-card .cc-name { color: #111; }
-  .comp-card .cc-desc { font-size: 10px; color: #888; margin-top: 4px; line-height: 1.4; }
-  .badge-red {
-    background: rgba(204,0,0,0.15); color: #CC0000; border-radius: 10px;
-    padding: 2px 8px; font-size: 9px; font-weight: 700; display: inline-block; margin-top: 6px;
-  }
+/* System list (home) */
+.sys-list { background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-md); overflow: hidden; }
+.sys-item {
+  display: flex; align-items: center; gap: 12px; padding: 13px 14px;
+  border-bottom: 1px solid var(--gray-5); background: none; border-left: none; border-right: none; border-top: none;
+  width: 100%; text-align: left; transition: background 0.15s;
+}
+.sys-item:last-child { border-bottom: none; }
+.sys-item:hover { background: var(--gray-5); }
+.sys-item .ic-wrap {
+  width: 34px; height: 34px; border-radius: 8px; background: var(--ink);
+  color: var(--red); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sys-item .name { font-size: 13px; font-weight: 700; color: var(--ink); }
+.sys-item .desc { font-size: 11px; color: var(--gray-1); margin-top: 2px; }
+.sys-item .arrow { color: var(--gray-2); margin-left: auto; }
 
-  /* COMP DETAIL */
-  #comp-detail { display: none; }
-  .comp-header {
-    margin: 0 16px 12px;
-    background: linear-gradient(135deg, #CC0000, #990000);
-    border-radius: 16px; padding: 16px; color: #fff;
-  }
-  .comp-tabs {
-    display: flex; border-bottom: 1px solid #333; margin: 0 16px; gap: 2px;
-  }
-  body.light .comp-tabs { border-color: #ddd; }
-  .comp-tab {
-    flex: 1; background: transparent; border: none;
-    border-bottom: 3px solid transparent; color: #888;
-    padding: 8px 4px; font-size: 9px; font-weight: 700; cursor: pointer;
-    letter-spacing: 0.3px; font-family: Georgia, serif; transition: all 0.2s;
-  }
-  .comp-tab.active { color: #CC0000; border-bottom-color: #CC0000; }
-  .comp-content { padding: 14px 16px; }
+/* ============ CATALOG / MATERI ============ */
+.filter-bar {
+  position: sticky; top: 64px; z-index: 60; background: var(--bg);
+  padding: 12px 0 8px; margin: 0 -16px; padding-left: 16px; padding-right: 16px;
+  border-bottom: 1px solid var(--gray-4);
+}
+.motor-scroll {
+  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.motor-scroll::-webkit-scrollbar { display: none; }
+.motor-chip {
+  background: var(--surface); border: 1.5px solid var(--gray-4); color: var(--ink-2);
+  border-radius: 100px; padding: 7px 13px; font-size: 11px; font-weight: 600;
+  white-space: nowrap; flex-shrink: 0; transition: all 0.15s;
+}
+.motor-chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }
 
-  .spec-card {
-    background: #242424; border-radius: 12px; padding: 12px; margin-bottom: 10px;
-    border-left: 4px solid #CC0000;
-  }
-  body.light .spec-card { background: #f0f0f0; }
-  .spec-motor { font-weight: 800; font-size: 11px; color: #CC0000; margin-bottom: 4px; }
-  .spec-val { font-size: 12px; color: #f0f0f0; line-height: 1.6; }
-  body.light .spec-val { color: #111; }
-  .torque-card {
-    background: rgba(204,0,0,0.08); border-radius: 12px; padding: 12px;
-    border: 1px solid rgba(204,0,0,0.2);
-  }
-  .torque-label { font-size: 10px; color: #CC0000; font-weight: 800; margin-bottom: 4px; letter-spacing: 1px; }
-  .torque-val { font-size: 12px; color: #f0f0f0; }
-  body.light .torque-val { color: #111; }
+.sys-tabs-bar {
+  display: flex; overflow-x: auto; gap: 2px; padding: 8px 0 0;
+  scrollbar-width: none; border-bottom: 1px solid var(--gray-4); margin: 0 -16px;
+  padding-left: 16px; padding-right: 16px;
+}
+.sys-tabs-bar::-webkit-scrollbar { display: none; }
+.sys-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--gray-1); padding: 9px 12px; font-size: 11px; font-weight: 700;
+  white-space: nowrap; letter-spacing: 0.2px; flex-shrink: 0;
+}
+.sys-tab.active { color: var(--red); border-bottom-color: var(--red); }
 
-  .item-row {
-    border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
-    display: flex; gap: 8px; font-size: 12px; line-height: 1.5;
-  }
-  .item-row.yellow { background: #242424; border-left: 3px solid #d97706; }
-  body.light .item-row.yellow { background: #f9f5e8; }
-  .item-row.red { background: rgba(204,0,0,0.07); border-left: 3px solid #CC0000; }
-  .item-row.green { background: rgba(22,163,74,0.08); border-left: 3px solid #16a34a; }
-  .item-row .icon { flex-shrink: 0; }
-  .item-row .txt { color: #ddd; }
-  body.light .item-row .txt { color: #333; }
+.cat-section-title { font-size: 14px; font-weight: 800; margin: 16px 0 10px; letter-spacing: -0.2px; }
 
-  .section-label {
-    font-size: 10px; color: #666; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; margin-top: 12px;
-  }
-  .affected-chip {
-    background: #242424; border-radius: 10px; padding: 8px 12px; margin-bottom: 6px;
-    display: flex; align-items: center; gap: 8px; cursor: pointer;
-  }
-  body.light .affected-chip { background: #f0f0f0; }
-  .part-row {
-    background: #242424; border-radius: 8px; padding: 8px 12px; margin-bottom: 6px;
-    display: flex; gap: 8px; align-items: center; font-size: 11px; color: #aaa;
-  }
-  body.light .part-row { background: #f0f0f0; color: #555; }
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-bottom: 16px; }
+.comp-card {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-md);
+  padding: 14px 12px; text-align: left; transition: all 0.15s; position: relative;
+}
+.comp-card:hover { border-color: var(--ink); transform: translateY(-1px); }
+.comp-card .ic-box {
+  width: 36px; height: 36px; background: var(--gray-5); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; color: var(--red);
+  margin-bottom: 10px;
+}
+.comp-card .name { font-size: 12px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+.comp-card .desc { font-size: 10px; color: var(--gray-1); margin-top: 4px; line-height: 1.4; }
+.comp-card .badge {
+  display: inline-block; background: var(--red-tint); color: var(--red);
+  border-radius: 4px; padding: 2px 6px; font-size: 9px; font-weight: 700; margin-top: 8px;
+}
 
-  /* QUIZ */
-  .quiz-start { padding: 24px 16px; text-align: center; }
-  .quiz-type-list { background: #1c1c1c; border: 1px solid #333; border-radius: 14px; padding: 16px; margin-bottom: 24px; text-align: left; }
-  body.light .quiz-type-list { background: #fff; border-color: #ddd; }
-  .quiz-type-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
-  .qt-title { font-weight: 800; font-size: 12px; color: #f0f0f0; }
-  body.light .qt-title { color: #111; }
-  .qt-desc { font-size: 11px; color: #888; }
+/* Detail */
+.detail-hero {
+  background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: 20px;
+  margin: 8px 0 14px; position: relative; overflow: hidden;
+}
+.detail-hero .ic-mark { color: var(--red); margin-bottom: 8px; }
+.detail-hero .title { font-size: 18px; font-weight: 900; letter-spacing: -0.3px; }
+.detail-hero .func { font-size: 12px; color: var(--gray-3); margin-top: 8px; line-height: 1.6; }
+.detail-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--gray-4); margin-bottom: 14px; }
+.detail-tab {
+  flex: 1; background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--gray-1); padding: 9px 4px; font-size: 11px; font-weight: 700;
+}
+.detail-tab.active { color: var(--red); border-bottom-color: var(--red); }
 
-  .btn-red {
-    background: #CC0000; color: #fff; border: none; border-radius: 14px;
-    padding: 14px 40px; font-size: 15px; font-weight: 900; cursor: pointer; width: 100%;
-    transition: background 0.2s;
-  }
-  .btn-red:hover { background: #990000; }
-  .btn-outline {
-    background: transparent; color: #CC0000; border: 2px solid #CC0000;
-    border-radius: 12px; padding: 12px; width: 100%;
-    font-size: 13px; font-weight: 800; cursor: pointer; margin-bottom: 10px;
-    transition: all 0.2s;
-  }
-  .btn-outline:hover { background: rgba(204,0,0,0.1); }
+.spec-block {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-md);
+  padding: 12px 14px; margin-bottom: 8px; border-left: 3px solid var(--red);
+}
+.spec-motor { font-size: 10px; font-weight: 800; color: var(--red); letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 4px; }
+.spec-val { font-size: 12px; color: var(--ink); line-height: 1.6; }
+.torque-block {
+  background: var(--red-tint); border: 1px solid var(--red-line); border-radius: var(--r-md);
+  padding: 12px 14px; margin-top: 10px;
+}
+.torque-label { font-size: 10px; font-weight: 800; color: var(--red); letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 4px; }
+.torque-val { font-size: 12px; color: var(--ink); }
+.info-row {
+  display: flex; gap: 10px; padding: 10px 12px; border-radius: var(--r-sm);
+  margin-bottom: 6px; font-size: 12px; line-height: 1.6; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--gray-4);
+}
+.info-row.cause { border-left: 3px solid var(--amber); }
+.info-row.effect { border-left: 3px solid var(--red); }
+.info-row.maint { border-left: 3px solid var(--green); }
+.row-ic { flex-shrink: 0; margin-top: 2px; }
+.row-txt { color: var(--ink); flex: 1; }
+.affected-chip {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-sm);
+  padding: 10px 12px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+  cursor: pointer; transition: all 0.15s;
+}
+.affected-chip:hover { border-color: var(--red); background: var(--red-tint); }
+.affected-chip .ic-box { width: 28px; height: 28px; background: var(--gray-5); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--red); }
+.affected-chip .name { font-size: 12px; font-weight: 700; flex: 1; }
+.part-row {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-sm);
+  padding: 9px 12px; margin-bottom: 5px; display: flex; gap: 8px; align-items: center;
+  font-size: 11px; color: var(--ink-2);
+}
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--gray-1);
+  text-transform: uppercase; margin: 14px 0 8px;
+}
 
-  /* QUIZ ACTIVE */
-  .quiz-progress { margin-bottom: 12px; }
-  .quiz-prog-bar { background: #242424; border-radius: 4px; height: 6px; }
-  body.light .quiz-prog-bar { background: #e0e0e0; }
-  .quiz-prog-fill { background: #CC0000; height: 100%; border-radius: 4px; transition: width 0.3s; }
-  .quiz-q-card {
-    background: #1c1c1c; border: 1px solid #333; border-radius: 16px; padding: 16px; margin-bottom: 14px;
-  }
-  body.light .quiz-q-card { background: #fff; border-color: #ddd; }
-  .quiz-type-badge {
-    background: rgba(204,0,0,0.1); border-radius: 8px; padding: 6px 10px;
-    display: inline-block; font-size: 10px; color: #CC0000; font-weight: 800;
-    margin-bottom: 10px; letter-spacing: 0.5px;
-  }
-  .quiz-question { font-size: 13px; color: #f0f0f0; line-height: 1.7; white-space: pre-line; }
-  body.light .quiz-question { color: #111; }
-  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-  .quiz-opt {
-    background: #1c1c1c; border: 2px solid #333; border-radius: 12px; padding: 12px 16px;
-    text-align: left; cursor: pointer; font-size: 13px; color: #ddd; font-weight: 600;
-    transition: all 0.2s; font-family: Georgia, serif; width: 100%;
-  }
-  body.light .quiz-opt { background: #fff; border-color: #ddd; color: #333; }
-  .quiz-opt:hover:not(:disabled) { border-color: #CC0000; }
-  .quiz-opt.correct { background: rgba(22,163,74,0.15); border-color: #16a34a; color: #16a34a; }
-  .quiz-opt.wrong { background: rgba(204,0,0,0.1); border-color: #CC0000; color: #CC0000; }
-  .opt-letter { opacity: 0.5; margin-right: 8px; }
+/* Troubleshoot */
+.ts-card {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-md);
+  padding: 16px; margin-top: 12px;
+}
+.ts-step { font-size: 11px; font-weight: 700; color: var(--gray-1); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.ts-question { font-size: 14px; font-weight: 800; color: var(--ink); margin-bottom: 12px; line-height: 1.4; }
+.ts-opt {
+  display: block; width: 100%; background: var(--surface); border: 1.5px solid var(--gray-4);
+  border-radius: var(--r-sm); padding: 12px 14px; margin-bottom: 6px; text-align: left;
+  font-size: 12px; color: var(--ink); font-weight: 600; transition: all 0.15s;
+}
+.ts-opt:hover { border-color: var(--red); background: var(--red-tint); }
+.ts-result {
+  background: var(--red-tint); border: 1px solid var(--red-line);
+  border-radius: var(--r-md); padding: 14px; margin-top: 10px;
+}
+.ts-result .label { font-size: 10px; font-weight: 800; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.ts-result .name { font-size: 14px; font-weight: 800; }
+.ts-result .desc { font-size: 12px; margin-top: 6px; color: var(--ink-2); line-height: 1.6; }
 
-  /* RESULT */
-  .result-score {
-    background: linear-gradient(135deg, #CC0000, #990000);
-    border-radius: 16px; padding: 24px; margin: 16px 0; color: #fff; text-align: center;
-  }
-  .result-big { font-size: 48px; font-weight: 900; }
-  .result-grade { font-size: 20px; opacity: 0.9; }
-  .result-status { font-size: 12px; opacity: 0.7; margin-top: 4px; }
-  .name-input {
-    width: 100%; padding: 12px; border-radius: 10px;
-    border: 2px solid #CC0000; background: #1c1c1c; color: #f0f0f0;
-    font-size: 14px; margin-bottom: 8px; font-family: Georgia, serif;
-  }
-  body.light .name-input { background: #fff; color: #111; }
+/* ============ QUIZ ============ */
+.quiz-start-page { padding: 20px 0; }
+.quiz-hero-card {
+  background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: 24px 20px;
+  text-align: center; margin-bottom: 14px; position: relative; overflow: hidden;
+}
+.quiz-hero-card .ic { color: var(--red); margin-bottom: 10px; }
+.quiz-hero-card h2 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+.quiz-hero-card p { font-size: 12px; color: var(--gray-3); margin-top: 6px; line-height: 1.6; }
+.qt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.qt-tile {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-md);
+  padding: 12px; text-align: left;
+}
+.qt-tile .ic { color: var(--red); margin-bottom: 8px; }
+.qt-tile .name { font-size: 12px; font-weight: 800; }
+.qt-tile .desc { font-size: 10px; color: var(--gray-1); margin-top: 3px; line-height: 1.4; }
 
-  /* LEADERBOARD */
-  .lb-card {
-    border-radius: 14px; padding: 14px 16px; margin-bottom: 8px;
-    display: flex; align-items: center; gap: 12px; border: 1px solid #333;
-    background: #1c1c1c;
-  }
-  body.light .lb-card { background: #fff; border-color: #ddd; color: #111; }
-  .lb-card.first { background: linear-gradient(135deg, #CC0000, #990000); border-color: #CC0000; color: #fff; }
-  .lb-rank {
-    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-weight: 900; font-size: 14px; background: #242424; flex-shrink: 0;
-  }
-  .lb-card.first .lb-rank { background: rgba(255,255,255,0.3); }
-  body.light .lb-rank { background: #f0f0f0; }
-  .lb-name { font-weight: 800; font-size: 13px; }
-  .lb-time { font-size: 10px; opacity: 0.7; }
-  .lb-score { text-align: right; }
-  .lb-score-big { font-weight: 900; font-size: 18px; }
-  .lb-score-pct { font-size: 10px; opacity: 0.7; }
-  .lb-flex { flex: 1; }
+.btn-primary {
+  background: var(--red); color: #fff; border: none; border-radius: var(--r-md);
+  padding: 14px; font-size: 14px; font-weight: 800; width: 100%; transition: background 0.15s;
+  letter-spacing: 0.2px;
+}
+.btn-primary:hover { background: var(--red-2); }
+.btn-outline {
+  background: var(--surface); color: var(--ink); border: 1.5px solid var(--gray-3);
+  border-radius: var(--r-md); padding: 12px; font-size: 13px; font-weight: 700; width: 100%;
+  margin-bottom: 8px; transition: all 0.15s;
+}
+.btn-outline:hover { border-color: var(--ink); }
 
-  /* BACK BTN */
-  .back-btn {
-    background: transparent; border: none; color: #CC0000;
-    padding: 12px 16px; font-size: 13px; cursor: pointer; font-weight: 700;
-    font-family: Georgia, serif;
-  }
+/* Quiz active */
+.q-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px 0 10px; }
+.q-count { font-size: 12px; font-weight: 700; color: var(--gray-1); }
+.q-time { font-size: 13px; font-weight: 800; }
+.q-time.ok { color: var(--green); }
+.q-time.warn { color: var(--red); }
+.q-track { background: var(--gray-4); border-radius: 4px; height: 4px; overflow: hidden; }
+.q-fill { background: var(--red); height: 100%; transition: width 0.3s; }
+.q-card {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-lg);
+  padding: 18px; margin: 14px 0;
+}
+.q-badge {
+  display: inline-block; background: var(--red-tint); color: var(--red);
+  border-radius: 100px; padding: 4px 10px; font-size: 10px; font-weight: 800;
+  letter-spacing: 0.4px; margin-bottom: 12px;
+}
+.q-ic { color: var(--red); margin-bottom: 10px; }
+.q-text { font-size: 14px; line-height: 1.65; color: var(--ink); white-space: pre-line; font-weight: 500; }
+.q-img-box {
+  width: 100%; aspect-ratio: 16/10; background: var(--gray-5); border-radius: var(--r-sm);
+  margin: 10px 0 4px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.q-img-box svg { width: 80%; height: 80%; }
+.q-opt {
+  display: block; width: 100%; background: var(--surface); border: 1.5px solid var(--gray-4);
+  border-radius: var(--r-md); padding: 13px 16px; margin-bottom: 8px; text-align: left;
+  font-size: 13px; color: var(--ink); font-weight: 600; transition: all 0.15s;
+}
+.q-opt:hover:not(:disabled) { border-color: var(--ink); }
+.q-opt.correct { background: #F0FDF4; border-color: var(--green); color: var(--green); }
+.q-opt.wrong { background: var(--red-tint); border-color: var(--red); color: var(--red); }
+.q-opt .letter { color: var(--gray-2); font-size: 11px; margin-right: 8px; font-weight: 700; }
+.q-feedback {
+  background: var(--gray-5); border-radius: var(--r-md); padding: 12px 14px; margin-top: 8px;
+  font-size: 12px; line-height: 1.6; border-left: 3px solid var(--gray-3);
+}
+.q-feedback.right { background: #F0FDF4; border-left-color: var(--green); }
+.q-feedback.wrong { background: var(--red-tint); border-left-color: var(--red); }
+.q-feedback .lbl { font-weight: 800; font-size: 11px; letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 4px; }
+.q-score-row { text-align: center; font-size: 12px; color: var(--gray-1); padding: 8px 0; }
+.q-score-row strong { color: var(--ink); font-weight: 800; }
 
-  /* UTILS */
-  .text-red { color: #CC0000; }
-  .text-mid { color: #888; }
-  .fw-900 { font-weight: 900; }
-  .mt-8 { margin-top: 8px; }
-  .mt-12 { margin-top: 12px; }
-  .flex-between { display: flex; justify-content: space-between; align-items: center; }
-  .timer-ok { color: #16a34a; font-size: 13px; font-weight: 900; }
-  .timer-warn { color: #CC0000; font-size: 13px; font-weight: 900; }
-  .score-display { text-align: center; margin-top: 14px; font-size: 12px; color: #888; }
+/* Result */
+.result-card {
+  background: var(--ink); color: #fff; border-radius: var(--r-lg);
+  padding: 24px 20px; text-align: center; margin: 16px 0;
+}
+.result-big { font-size: 56px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+.result-grade { font-size: 16px; font-weight: 700; margin-top: 6px; color: var(--gray-3); }
+.result-status { font-size: 12px; margin-top: 4px; color: var(--gray-2); }
+.result-status.ok { color: #86EFAC; }
+.name-input-wrap { margin: 16px 0; padding-bottom: 4px; }
+.name-input {
+  width: 100%; padding: 13px 14px; border-radius: var(--r-md);
+  border: 1.5px solid var(--gray-3); background: var(--surface); color: var(--ink);
+  font-size: 14px; margin-bottom: 8px; outline: none; font-family: inherit;
+}
+.name-input:focus { border-color: var(--ink); }
+
+/* Leaderboard */
+.lb-header { text-align: center; padding: 22px 0 16px; }
+.lb-header .ic { color: var(--red); margin-bottom: 8px; }
+.lb-header h2 { font-size: 20px; font-weight: 900; letter-spacing: -0.3px; }
+.lb-header p { font-size: 12px; color: var(--gray-1); margin-top: 4px; }
+.lb-item {
+  background: var(--surface); border: 1px solid var(--gray-4); border-radius: var(--r-md);
+  padding: 12px 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 12px;
+}
+.lb-item.gold { background: var(--ink); border-color: var(--ink); color: #fff; }
+.lb-item.gold .lb-time { color: var(--gray-2); }
+.lb-rank {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--gray-5);
+  display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;
+  flex-shrink: 0;
+}
+.lb-item.gold .lb-rank { background: var(--red); color: #fff; }
+.lb-info { flex: 1; min-width: 0; }
+.lb-name { font-size: 13px; font-weight: 700; }
+.lb-time { font-size: 10px; color: var(--gray-1); margin-top: 2px; }
+.lb-score-big { font-size: 17px; font-weight: 900; letter-spacing: -0.5px; }
+.lb-score-pct { font-size: 10px; color: var(--gray-1); }
+.lb-item.gold .lb-score-pct { color: var(--gray-3); }
+.lb-empty { text-align: center; padding: 40px 0; color: var(--gray-1); font-size: 13px; }
+
+/* ============ BOTTOM NAV ============ */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface);
+  border-top: 1px solid var(--gray-4); display: flex; justify-content: space-around;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); z-index: 100;
+}
+.nav-tab {
+  flex: 1; background: none; border: none; padding: 8px 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  color: var(--gray-1); transition: color 0.15s;
+}
+.nav-tab.active { color: var(--red); }
+.nav-tab svg { display: block; }
+.nav-tab .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.2px; }
+
+/* SVG sizing helpers */
+.ic-sm { width: 16px; height: 16px; }
+.ic-md { width: 22px; height: 22px; }
+.ic-lg { width: 32px; height: 32px; }
+.ic-xl { width: 48px; height: 48px; }
+
+/* Utility */
+.fade-in { animation: fadeIn 0.2s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<div id="navbar">
-  <div class="nav-brand">
-    <span style="font-size:20px">🏍️</span>
-    <div>
-      <div class="nav-title">TBSM DIGITAL</div>
-      <div class="nav-sub">SMKN 6 BALIKPAPAN</div>
+<!-- ============ HEADER ============ -->
+<header class="app-header">
+  <div class="brand-row">
+    <div class="brand-mark"></div>
+    <div class="brand-text">
+      <div class="brand-name">TEKNISI<span class="dot">.</span></div>
+      <div class="brand-sub">SMKN 6 Balikpapan · TSM</div>
     </div>
   </div>
-  <div class="nav-btns">
-    <button class="nav-btn active" onclick="showPage('home')" id="nb-home">🏠</button>
-    <button class="nav-btn" onclick="showPage('catalog')" id="nb-catalog">📚</button>
-    <button class="nav-btn" onclick="showPage('quiz')" id="nb-quiz">🎯</button>
-    <button class="nav-btn" onclick="showPage('leaderboard')" id="nb-leaderboard">🏆</button>
-    <button class="nav-btn" onclick="toggleTheme()" id="nb-theme">☀️</button>
-  </div>
-</div>
+</header>
 
-<!-- HOME PAGE -->
+<!-- ============ HOME ============ -->
 <div class="page active" id="page-home">
-  <div class="card-red" style="margin-bottom:20px">
-    <div style="font-size:40px;margin-bottom:8px">🏍️</div>
-    <div style="font-size:20px;font-weight:900;letter-spacing:1px">Honda Beat & Vario 125</div>
-    <div style="font-size:12px;opacity:0.8;margin-top:4px">Media Pembelajaran Interaktif · TBSM</div>
-    <div style="font-size:11px;opacity:0.6;margin-top:2px">SMKN 6 Balikpapan × Astra Motor Kaltim 1</div>
-  </div>
-  <div class="home-grid">
-    <button class="home-card" onclick="showPage('catalog')">
-      <div class="hc-icon">📚</div>
-      <div class="hc-title">Katalog Sistem</div>
-      <div class="hc-sub">6 sistem · 20+ komponen</div>
-    </button>
-    <button class="home-card" onclick="showPage('quiz')">
-      <div class="hc-icon">🎯</div>
-      <div class="hc-title">Mulai Quiz</div>
-      <div class="hc-sub">20 soal · 20 detik/soal</div>
-    </button>
-    <button class="home-card" onclick="showPage('leaderboard')">
-      <div class="hc-icon">🏆</div>
-      <div class="hc-title">Leaderboard</div>
-      <div class="hc-sub">Ranking siswa</div>
-    </button>
-    <button class="home-card" onclick="showPage('catalog')">
-      <div class="hc-icon">🔧</div>
-      <div class="hc-title">2 Motor</div>
-      <div class="hc-sub">Beat 110 + Vario 125</div>
-    </button>
-  </div>
-  <div class="card" style="margin-top:4px">
-    <div style="font-weight:800;font-size:13px;margin-bottom:12px">📋 Sistem Tersedia</div>
-    <div id="home-sys-list"></div>
-  </div>
-</div>
-
-<!-- CATALOG PAGE -->
-<div class="page" id="page-catalog">
-  <div class="motor-toggle">
-    <button class="motor-btn active" id="mb-beat" onclick="setMotor('Beat 110')">Honda Beat 110 FI</button>
-    <button class="motor-btn" id="mb-vario" onclick="setMotor('Vario 125')">Honda Vario 125</button>
-  </div>
-  <div class="sys-tabs" id="sys-tabs"></div>
-  <div id="comp-list" style="padding:12px 16px"></div>
-  <div id="comp-detail">
-    <button class="back-btn" onclick="showCompList()">← Kembali</button>
-    <div class="comp-header" id="detail-header"></div>
-    <div class="comp-tabs" id="detail-tabs"></div>
-    <div class="comp-content" id="detail-content"></div>
-  </div>
-</div>
-
-<!-- QUIZ PAGE -->
-<div class="page" id="page-quiz">
-  <div id="quiz-start-screen" class="quiz-start">
-    <div style="font-size:60px;margin-bottom:16px">🎯</div>
-    <div style="font-weight:900;font-size:22px;margin-bottom:8px">Quiz TBSM</div>
-    <div style="color:#888;font-size:13px;margin-bottom:24px;line-height:1.6">
-      20 soal acak · 20 detik per soal<br>Terdiri dari 4 jenis soal interaktif
+  <div class="hero-card">
+    <svg class="hero-bg-illustration" viewBox="0 0 400 240" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="80" cy="180" r="38"/>
+      <circle cx="80" cy="180" r="14"/>
+      <circle cx="320" cy="180" r="38"/>
+      <circle cx="320" cy="180" r="14"/>
+      <path d="M80 180 L130 100 L200 90 L260 110 L320 180"/>
+      <path d="M200 90 L210 70 L260 70 L260 110"/>
+      <path d="M130 100 L120 60 L150 50 L175 55"/>
+      <path d="M260 110 L290 130 L300 165"/>
+      <line x1="125" y1="105" x2="155" y2="105"/>
+    </svg>
+    <div class="hero-eyebrow">MODUL PEMBELAJARAN DIGITAL</div>
+    <div class="hero-h1">Teknik Sepeda Motor<br>untuk Era<span class="accent">.</span> Industri 4.0</div>
+    <div class="hero-meta">SMKN 6 Balikpapan × Astra Motor Kaltim 1</div>
+    <div class="hero-tags">
+      <span class="hero-tag">9 Motor Honda</span>
+      <span class="hero-tag">6 Sistem Utama</span>
+      <span class="hero-tag">Quiz Adaptif</span>
     </div>
-    <div class="quiz-type-list">
-      <div class="quiz-type-item"><span style="font-size:20px">🔍</span><div><div class="qt-title">Tebak Komponen</div><div class="qt-desc">Identifikasi komponen dari deskripsi fungsi</div></div></div>
-      <div class="quiz-type-item"><span style="font-size:20px">🩺</span><div><div class="qt-title">Diagnosis Gejala</div><div class="qt-desc">Tentukan komponen bermasalah dari gejala</div></div></div>
-      <div class="quiz-type-item"><span style="font-size:20px">✅</span><div><div class="qt-title">Benar / Salah</div><div class="qt-desc">Verifikasi spesifikasi teknis Honda</div></div></div>
-      <div class="quiz-type-item"><span style="font-size:20px">⚠️</span><div><div class="qt-title">Temukan Penyebab</div><div class="qt-desc">Identifikasi yang BUKAN penyebab kerusakan</div></div></div>
-    </div>
-    <button class="btn-red" onclick="startQuiz()">Mulai Quiz ▶</button>
   </div>
 
-  <div id="quiz-active-screen" style="display:none;padding:16px">
-    <div class="quiz-progress">
-      <div class="flex-between" style="margin-bottom:6px">
-        <span style="font-size:11px;color:#888;font-weight:700" id="q-counter">Soal 1 / 20</span>
-        <span id="q-timer" class="timer-ok">⏱ 20s</span>
+  <div class="stats-grid">
+    <button class="stat-tile" onclick="goto('materi')">
+      <svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <div class="num">6</div>
+      <div class="lbl">Sistem materi</div>
+    </button>
+    <button class="stat-tile" onclick="goto('materi')">
+      <svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <div class="num" id="stat-comp">25</div>
+      <div class="lbl">Komponen</div>
+    </button>
+    <button class="stat-tile" onclick="goto('soal')">
+      <svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <div class="num">20</div>
+      <div class="lbl">Soal per sesi</div>
+    </button>
+    <button class="stat-tile" onclick="goto('leaderboard')">
+      <svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      <div class="num" id="stat-lb">3</div>
+      <div class="lbl">Di leaderboard</div>
+    </button>
+  </div>
+
+  <div class="progress-card">
+    <div class="pc-head">
+      <div class="pc-title">Aktivitas Hari Ini</div>
+      <div class="pc-date" id="today-date">—</div>
+    </div>
+    <div class="pc-row">
+      <div class="ic-box">
+        <svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </div>
-      <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="q-progress" style="width:0%"></div></div>
+      <div class="lbl">Waktu Belajar</div>
+      <div class="val" id="prog-time">0 menit</div>
     </div>
-    <div class="quiz-q-card">
-      <div class="quiz-type-badge" id="q-type-badge">🔍 Tebak Komponen</div>
-      <div style="font-size:26px;margin-bottom:8px" id="q-icon">⚙️</div>
-      <div class="quiz-question" id="q-text"></div>
+    <div class="pc-row">
+      <div class="ic-box">
+        <svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="lbl">Soal Diselesaikan</div>
+      <div class="val" id="prog-q">0</div>
     </div>
-    <div class="quiz-options" id="q-options"></div>
-    <div class="score-display">Skor: <strong id="q-score-display">0</strong> / <span id="q-answered">0</span></div>
+    <div class="pc-row">
+      <div class="ic-box">
+        <svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15 8.5 22 9.3 17 14.2 18.2 21 12 17.8 5.8 21 7 14.2 2 9.3 9 8.5z"/></svg>
+      </div>
+      <div class="lbl">Skor Tertinggi</div>
+      <div class="val" id="prog-best">—</div>
+    </div>
   </div>
 
-  <div id="quiz-result-screen" style="display:none;padding:24px 16px;text-align:center">
-    <div style="font-size:60px;margin-bottom:12px" id="result-emoji">🏆</div>
-    <div style="font-weight:900;font-size:24px">Hasil Quiz</div>
-    <div class="result-score">
-      <div class="result-big" id="result-score-text">0/20</div>
-      <div class="result-grade" id="result-grade">Nilai: A (100%)</div>
-      <div class="result-status" id="result-status">✅ Kompeten</div>
+  <div class="sec-head">
+    <div class="sec-title">Sistem Kendaraan</div>
+    <button class="sec-link" onclick="goto('materi')">Lihat semua →</button>
+  </div>
+  <div class="sys-list" id="home-sys"></div>
+
+  <div class="sec-head">
+    <div class="sec-title">Akses Cepat</div>
+  </div>
+  <div class="sys-list">
+    <button class="sys-item" onclick="goto('materi');startTroubleshoot()">
+      <div class="ic-wrap"><svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div style="flex:1">
+        <div class="name">Simulasi Troubleshooting</div>
+        <div class="desc">Pilih gejala → temukan komponen rusak</div>
+      </div>
+      <span class="arrow">›</span>
+    </button>
+    <button class="sys-item" onclick="goto('soal')">
+      <div class="ic-wrap"><svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14 2 14 8 20 8"/><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div>
+      <div style="flex:1">
+        <div class="name">Mulai Quiz</div>
+        <div class="desc">20 soal acak · feedback langsung</div>
+      </div>
+      <span class="arrow">›</span>
+    </button>
+  </div>
+
+  <div style="height: 24px"></div>
+</div>
+
+<!-- ============ MATERI ============ -->
+<div class="page" id="page-materi">
+  <div id="materi-list-view">
+    <div class="filter-bar">
+      <div style="font-size:10px;font-weight:700;color:var(--gray-1);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Filter Motor</div>
+      <div class="motor-scroll" id="motor-scroll"></div>
+      <div class="sys-tabs-bar" id="sys-tabs"></div>
     </div>
-    <div id="name-input-area" style="margin-bottom:16px;display:none">
-      <input class="name-input" id="player-name-input" placeholder="Masukkan nama kamu..." />
-      <button class="btn-red" onclick="saveScore()">Simpan ke Leaderboard</button>
+    <div class="cat-section-title" id="cat-title">—</div>
+    <div class="comp-grid" id="comp-list"></div>
+
+    <div class="sec-head">
+      <div class="sec-title">Simulasi Troubleshooting</div>
     </div>
-    <button class="btn-outline" onclick="document.getElementById('name-input-area').style.display='block'" id="save-btn">🏆 Simpan Skor</button>
-    <button class="btn-red" onclick="startQuiz()" style="margin-top:8px">🔄 Quiz Lagi</button>
+    <div class="ts-card" id="ts-card">
+      <div class="ts-step" id="ts-step-label">Langkah 1 dari 3</div>
+      <div class="ts-question" id="ts-q">Apa gejala yang dialami motor?</div>
+      <div id="ts-opts"></div>
+      <div id="ts-result" style="display:none"></div>
+      <button class="btn-outline" style="margin-top:12px" onclick="startTroubleshoot()">↻ Mulai Ulang</button>
+    </div>
+    <div style="height:24px"></div>
+  </div>
+
+  <div id="materi-detail-view" style="display:none">
+    <button class="back-btn" onclick="closeDetail()">
+      <svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Kembali
+    </button>
+    <div class="detail-hero" id="detail-hero"></div>
+    <div class="detail-tabs" id="detail-tabs"></div>
+    <div id="detail-content"></div>
+    <div style="height:24px"></div>
   </div>
 </div>
 
-<!-- LEADERBOARD PAGE -->
+<!-- ============ SOAL / QUIZ ============ -->
+<div class="page" id="page-soal">
+  <div id="quiz-start">
+    <div class="quiz-start-page">
+      <div class="quiz-hero-card">
+        <svg class="ic ic-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        <h2>Quiz Adaptif</h2>
+        <p>20 soal acak · 20 detik per soal<br>Manual Service + ATP TSM + K3</p>
+      </div>
+      <div class="qt-grid">
+        <div class="qt-tile"><svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><div class="name">Tebak Komponen</div><div class="desc">Dari deskripsi fungsi</div></div>
+        <div class="qt-tile"><svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><div class="name">Diagnosis Gejala</div><div class="desc">Identifikasi kerusakan</div></div>
+        <div class="qt-tile"><svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><div class="name">Benar / Salah</div><div class="desc">Verifikasi spesifikasi</div></div>
+        <div class="qt-tile"><svg class="ic ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="name">K3 & SOP</div><div class="desc">Keselamatan kerja</div></div>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">
+        Mulai Quiz
+        <svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:4px"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="quiz-active" style="display:none">
+    <button class="back-btn" onclick="exitQuiz()">
+      <svg class="ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Keluar Quiz
+    </button>
+    <div class="q-bar">
+      <span class="q-count" id="q-count">Soal 1 / 20</span>
+      <span class="q-time ok" id="q-time">20s</span>
+    </div>
+    <div class="q-track"><div class="q-fill" id="q-fill" style="width:0%"></div></div>
+    <div class="q-card">
+      <span class="q-badge" id="q-badge">Tebak Komponen</span>
+      <div class="q-ic" id="q-ic"></div>
+      <div class="q-text" id="q-text"></div>
+      <div id="q-img-wrap"></div>
+    </div>
+    <div id="q-opts"></div>
+    <div id="q-feedback"></div>
+    <div class="q-score-row">Skor: <strong id="q-score">0</strong> · Soal: <strong id="q-done">0</strong>/<span id="q-total">20</span></div>
+  </div>
+
+  <div id="quiz-result" style="display:none">
+    <div class="result-card">
+      <svg class="ic ic-xl" id="res-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      <div class="result-big" id="res-score">0/20</div>
+      <div class="result-grade" id="res-grade">Nilai: A</div>
+      <div class="result-status" id="res-status">Kompeten</div>
+    </div>
+    <div class="name-input-wrap" id="name-wrap" style="display:none">
+      <input class="name-input" id="name-input" placeholder="Masukkan nama lengkap kamu" maxlength="30" />
+      <button class="btn-primary" onclick="saveScore()">Simpan ke Leaderboard</button>
+    </div>
+    <button class="btn-outline" id="save-btn" onclick="showNameInput()">Simpan ke Leaderboard</button>
+    <button class="btn-primary" onclick="startQuiz()">Ulangi Quiz</button>
+  </div>
+  <div style="height: 24px"></div>
+</div>
+
+<!-- ============ LEADERBOARD ============ -->
 <div class="page" id="page-leaderboard">
-  <div style="text-align:center;margin-bottom:20px;padding:16px 16px 0">
-    <div style="font-size:40px">🏆</div>
-    <div style="font-weight:900;font-size:18px">Leaderboard</div>
-    <div style="font-size:11px;color:#888">TBSM · SMKN 6 Balikpapan</div>
+  <div class="lb-header">
+    <svg class="ic ic-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+    <h2>Leaderboard</h2>
+    <p>10 skor terbaik siswa TSM</p>
   </div>
-  <div id="lb-list" style="padding:0 16px 24px"></div>
+  <div id="lb-list"></div>
+  <div style="height: 24px"></div>
 </div>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" data-tab="home" onclick="goto('home')">
+    <svg class="ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="lbl">Home</span>
+  </button>
+  <button class="nav-tab" data-tab="materi" onclick="goto('materi')">
+    <svg class="ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <span class="lbl">Materi</span>
+  </button>
+  <button class="nav-tab" data-tab="soal" onclick="goto('soal')">
+    <svg class="ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    <span class="lbl">Soal</span>
+  </button>
+  <button class="nav-tab" data-tab="leaderboard" onclick="goto('leaderboard')">
+    <svg class="ic-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+    <span class="lbl">Rank</span>
+  </button>
+</nav>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════════════════
+// ============================================================
+// SAFE STORAGE (sessionStorage di production, in-memory fallback)
+// ============================================================
+const Store = {
+  _m: {},
+  set(k,v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch(e){ this._m[k] = v; } },
+  get(k) { try { const x = sessionStorage.getItem(k); return x ? JSON.parse(x) : (this._m[k] ?? null); } catch(e){ return this._m[k] ?? null; } }
+};
+
+// ============================================================
+// MOTOR DATA (9 Honda matic + 1 manual)
+// ============================================================
+const MOTORS = {
+  beat110:   {name:'Beat 110 FI',     family:'esp110',   cvt:true},
+  scoopy110: {name:'Scoopy 110',      family:'esp110',   cvt:true},
+  genio110:  {name:'Genio 110',       family:'esp110',   cvt:true},
+  vario125:  {name:'Vario 125',       family:'esp125',   cvt:true},
+  vario150:  {name:'Vario 150',       family:'esp150',   cvt:true},
+  vario160:  {name:'Vario 160',       family:'espP160',  cvt:true},
+  pcx160:    {name:'PCX 160',         family:'espP160',  cvt:true},
+  stylo160:  {name:'Stylo 160',       family:'espP160',  cvt:true},
+  supraGTR:  {name:'Supra GTR 150',   family:'supra150', cvt:false}
+};
+
+// SVG Icon helpers
+const ICON = {
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  engine: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="12" height="11" rx="1"/><line x1="9" y1="8" x2="9" y2="4"/><line x1="15" y1="8" x2="15" y2="4"/><line x1="3" y1="13" x2="6" y2="13"/><line x1="18" y1="13" x2="21" y2="13"/></svg>',
+  belt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="4"/><circle cx="17" cy="12" r="4"/><path d="M7 8h10"/><path d="M7 16h10"/></svg>',
+  fuel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2 2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg>',
+  bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  cog: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M21 12h-3M6 12H3M18.36 5.64l-2.12 2.12M7.76 16.24l-2.12 2.12M18.36 18.36l-2.12-2.12M7.76 7.76L5.64 5.64"/></svg>',
+  zap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  disc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>',
+  shock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M8 5h8M7 8h10M8 11h8M7 14h10M8 17h8"/></svg>',
+  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>'
+};
+
+// ============================================================
+// SYSTEMS & COMPONENTS DATA
+// Specs/parts dikelompokkan per engine family
+// ============================================================
 const SYSTEMS = {
   engine: {
-    label: "Engine & Top Overhaul", icon: "🔧",
+    label: 'Engine & Top Overhaul', icon: ICON.engine,
     components: {
       piston: {
-        name:"Piston", emoji:"⚙️",
-        function:"Mengkonversi tekanan pembakaran menjadi gerakan mekanis rotasional melalui connecting rod.",
-        specs:{"Beat 110":"Diameter 50mm, clearance 0.010–0.040mm, ring gap 0.15–0.30mm","Vario 125":"Diameter 52.4mm, clearance 0.010–0.040mm, ring gap 0.15–0.30mm"},
-        causes:["Oli jarang diganti (>3.000 km)","Overheating berkepanjangan","Bahan bakar bercampur air","Oli terlalu encer"],
-        effects:["Kompresi turun drastis","Tenaga melemah","Konsumsi oli meningkat","Asap putih dari knalpot"],
-        maintenance:["Ganti oli setiap 2.000–3.000 km dengan Honda MBSS 10W-30","Cek celah piston setiap top overhaul","Bersihkan karbon di kepala piston"],
-        parts:{"Beat 110":["Piston kit 50mm std","Ring piston set","Gasket top set"],"Vario 125":["Piston kit 52.4mm std","Ring piston set","Gasket top set"]},
-        affects:["cylinder","crankshaft"], torque:"Baut kepala silinder: 10 N·m → 24 N·m (2 tahap)"
+        name: 'Piston', icon: ICON.gear,
+        function: 'Mengubah tekanan gas hasil pembakaran menjadi gerak linear, diteruskan ke crankshaft melalui connecting rod.',
+        specs: {
+          esp110:   'Diameter Ø 50,00 mm (std). Batas aus Ø 50,10 mm. Celah piston-silinder: 0,010–0,040 mm. Ring gap atas: 0,15–0,30 mm.',
+          esp125:   'Diameter Ø 52,40 mm (std). Batas aus Ø 52,50 mm. Celah piston-silinder: 0,010–0,040 mm. Ring gap atas: 0,15–0,30 mm.',
+          esp150:   'Diameter Ø 57,30 mm (std). Batas aus Ø 57,40 mm. Celah piston-silinder: 0,015–0,045 mm.',
+          espP160:  'Diameter Ø 60,00 mm (std). Batas aus Ø 60,10 mm. Celah piston-silinder: 0,015–0,045 mm. Teknologi eSP+.',
+          supra150: 'Diameter Ø 57,30 mm (std). Batas aus Ø 57,40 mm. Mesin manual 4-speed.'
+        },
+        causes: ['Oli mesin jarang diganti atau kualitas rendah','Mesin overheating akibat sistem pendingin terganggu','Bahan bakar bercampur air atau RON rendah','Celah ring piston melebihi batas servis'],
+        effects: ['Kompresi turun — tenaga melemah','Konsumsi oli meningkat (oli masuk ruang bakar)','Asap putih-kebiruan dari knalpot','Mesin brebet dan sulit dihidupkan'],
+        maintenance: ['Ganti oli mesin setiap 2.000–3.000 km dengan Honda MPX/SPX sesuai spek','Ukur diameter piston dengan micrometer saat top overhaul','Periksa ring gap dengan feeler gauge; ganti jika melebihi batas','Bersihkan deposit karbon di kepala piston'],
+        parts: {
+          esp110:   ['Piston kit 50mm std Honda','Ring piston set','Gasket top set'],
+          esp125:   ['Piston kit 52,4mm std Honda','Ring piston set','Gasket top set'],
+          esp150:   ['Piston kit 57,3mm std','Ring piston set','Gasket top set'],
+          espP160:  ['Piston kit 60mm std','Ring piston set','Gasket top set eSP+'],
+          supra150: ['Piston kit 57,3mm std','Ring piston set','Gasket top set']
+        },
+        affects: ['cylinder','crankshaft'],
+        torque: 'Baut kepala silinder: 10 N·m (tahap 1) → 24 N·m (tahap 2, pola silang)'
       },
       cylinder: {
-        name:"Silinder (Cylinder Bore)", emoji:"🔩",
-        function:"Ruang pembakaran tempat piston bergerak naik-turun menghasilkan tenaga.",
-        specs:{"Beat 110":"Bore std 50.00mm, batas aus 50.10mm","Vario 125":"Bore std 52.40mm, batas aus 52.50mm"},
-        causes:["Piston aus tidak segera diganti","Kontaminasi oli","Overheating parah"],
-        effects:["Blow-by gas meningkat","Kompresi bocor","Konsumsi bahan bakar naik"],
-        maintenance:["Ukur bore setiap top overhaul dengan bore gauge","Honing jika oval >0.05mm","Bersihkan saluran oli silinder"],
-        parts:{"Beat 110":["Liner silinder 50mm","Piston oversize 0.25mm jika perlu"],"Vario 125":["Liner silinder 52.4mm","Piston oversize 0.25mm jika perlu"]},
-        affects:["piston"], torque:"—"
+        name: 'Silinder', icon: ICON.cog,
+        function: 'Ruang kerja piston tempat siklus hisap, kompresi, usaha, dan buang berlangsung.',
+        specs: {
+          esp110:  'Bore std: 50,00 mm. Batas aus: 50,10 mm. Batas ketirusan: 0,05 mm.',
+          esp125:  'Bore std: 52,40 mm. Batas aus: 52,50 mm. Batas ketirusan: 0,05 mm.',
+          esp150:  'Bore std: 57,30 mm. Batas aus: 57,40 mm.',
+          espP160: 'Bore std: 60,00 mm. Batas aus: 60,10 mm. Material aluminum dengan lapisan Ni-SiC.',
+          supra150:'Bore std: 57,30 mm. Batas aus: 57,40 mm.'
+        },
+        causes: ['Piston atau ring aus tidak segera diganti','Kontaminasi partikel metal dalam oli','Overheating berkepanjangan'],
+        effects: ['Blow-by gas — oli cepat kotor','Kompresi bocor — tenaga drop drastis','Konsumsi bahan bakar meningkat'],
+        maintenance: ['Ukur bore dengan bore gauge pada 3 titik dan 2 arah','Lakukan honing jika ovalitas >0,05 mm','Ganti liner jika sudah melebihi batas aus'],
+        parts: {
+          esp110:['Liner silinder 50mm','Piston oversize 0,25mm'],
+          esp125:['Liner silinder 52,4mm','Piston oversize 0,25mm'],
+          esp150:['Liner silinder 57,3mm','Piston oversize 0,25mm'],
+          espP160:['Cylinder block assy eSP+','Piston oversize 0,25mm'],
+          supra150:['Liner silinder 57,3mm','Piston oversize 0,25mm']
+        },
+        affects: ['piston'], torque: '—'
       },
       valve: {
-        name:"Klep (Valve)", emoji:"🎯",
-        function:"Mengatur masuk-keluarnya campuran bahan bakar (IN) dan gas buang (EX) dari ruang bakar.",
-        specs:{"Beat 110":"Celah klep IN: 0.16mm ±0.03 | EX: 0.25mm ±0.03 (kondisi dingin)","Vario 125":"Celah klep IN: 0.16mm ±0.03 | EX: 0.25mm ±0.03 (kondisi dingin)"},
-        causes:["Karbon menumpuk di seat klep","Per klep lemah","Batang klep aus","Celah tidak disetel"],
-        effects:["Mesin brebet di RPM rendah","Tenaga drop","Konsumsi bensin boros","Suara 'tek-tek' dari kepala mesin"],
-        maintenance:["Setel celah klep setiap 8.000 km","Skir klep setiap top overhaul","Cek per klep"],
-        parts:{"Beat 110":["Klep IN & EX set","Per klep set","Seal klep"],"Vario 125":["Klep IN & EX set","Per klep set","Seal klep"]},
-        affects:["piston","camshaft"], torque:"Baut rocker arm: 12 N·m"
-      },
-      camshaft: {
-        name:"Camshaft (Noken As)", emoji:"〰️",
-        function:"Mengatur timing buka-tutup klep sesuai siklus kerja mesin 4-langkah.",
-        specs:{"Beat 110":"Lift IN: 6.84mm | EX: 6.26mm | Timing: BTDC 10° / ABDC 35°","Vario 125":"Lift IN: 7.10mm | EX: 6.50mm | Timing: BTDC 12° / ABDC 38°"},
-        causes:["Oli kurang/kotor (lobe aus)","Rantai keteng kendur","Tensioner lemah"],
-        effects:["Timing mesin kacau","Suara berisik dari area kepala mesin","Tenaga drop di semua RPM"],
-        maintenance:["Ganti oli rutin","Cek kekencangan rantai keteng setiap 16.000 km","Ganti tensioner jika bunyi kriik sudah parah"],
-        parts:{"Beat 110":["Camshaft assy Beat","Rantai keteng 82 mata","Tensioner otomatis"],"Vario 125":["Camshaft assy Vario 125","Rantai keteng 84 mata","Tensioner otomatis"]},
-        affects:["valve"], torque:"Baut sprocket camshaft: 26 N·m"
+        name: 'Klep (Valve)', icon: ICON.bolt,
+        function: 'Mengatur aliran campuran masuk (IN) dan gas buang (EX) dari ruang bakar.',
+        specs: {
+          esp110:  'Celah IN: 0,16 mm ±0,03 | EX: 0,25 mm ±0,03 (mesin dingin <35°C). SOHC 2-klep.',
+          esp125:  'Celah IN: 0,16 mm ±0,03 | EX: 0,25 mm ±0,03. SOHC 2-klep.',
+          esp150:  'Celah IN: 0,16 mm | EX: 0,25 mm. SOHC 2-klep.',
+          espP160: 'Celah IN: 0,16 mm | EX: 0,27 mm. SOHC 4-klep (eSP+).',
+          supra150:'Celah IN: 0,10 mm | EX: 0,14 mm. SOHC 4-klep.'
+        },
+        causes: ['Karbon menumpuk di dudukan klep','Per klep lemah atau patah','Batang klep aus','Celah tidak disetel rutin'],
+        effects: ['Mesin brebet di idle','Tenaga drop di RPM menengah','Konsumsi bensin boros','Bunyi tek-tek dari kepala mesin'],
+        maintenance: ['Setel celah klep setiap 8.000 km','Skir klep saat top overhaul','Ukur panjang per klep dan ganti jika di bawah spek'],
+        parts: {
+          esp110:['Klep IN & EX set','Per klep','Seal klep','Shim klep'],
+          esp125:['Klep IN & EX set','Per klep','Seal klep'],
+          esp150:['Klep IN & EX set','Per klep','Seal klep'],
+          espP160:['Klep set 4-klep eSP+','Per klep set','Seal klep'],
+          supra150:['Klep IN & EX set','Per klep','Seal klep']
+        },
+        affects: ['piston','camshaft'], torque: 'Baut rocker arm shaft: 12 N·m'
       },
       crankshaft: {
-        name:"Crankshaft (Poros Engkol)", emoji:"🌀",
-        function:"Mengubah gerak linear piston menjadi gerak rotasi untuk menggerakkan CVT dan sistem pengapian.",
-        specs:{"Beat 110":"Main journal clearance: 0.020–0.044mm, runout maks: 0.03mm","Vario 125":"Main journal clearance: 0.020–0.044mm, runout maks: 0.03mm"},
-        causes:["Bearing aus akibat oli habis","Beban berlebih (mesin dipaksa)","Kemasukan air"],
-        effects:["Suara gludug dari bawah mesin","Getaran berlebih","Mesin tidak bisa dinyalakan"],
-        maintenance:["Pastikan oli tidak pernah habis","Cek bearing crankshaft setiap overhaul besar","Ukur runout dengan dial gauge"],
-        parts:{"Beat 110":["Crankshaft assy Beat","Main bearing set","Oil seal crankshaft"],"Vario 125":["Crankshaft assy Vario 125","Main bearing set","Oil seal crankshaft"]},
-        affects:["piston","cvt_primary"], torque:"Baut flywheel: 54 N·m"
+        name: 'Crankshaft', icon: ICON.cog,
+        function: 'Mengubah gerak linear piston menjadi rotasi untuk menggerakkan transmisi dan kelistrikan.',
+        specs: {
+          esp110:'Main journal clearance: 0,020–0,044 mm. Batas: 0,10 mm. Runout maks: 0,03 mm.',
+          esp125:'Main journal clearance: 0,020–0,044 mm. Runout maks: 0,03 mm.',
+          esp150:'Main journal clearance: 0,020–0,044 mm. Runout maks: 0,03 mm.',
+          espP160:'Main journal clearance: 0,020–0,044 mm. Material crankshaft heavy-duty eSP+.',
+          supra150:'Main journal clearance: 0,020–0,044 mm. Runout maks: 0,03 mm.'
+        },
+        causes: ['Bantalan aus karena oli habis/kotor','Beban mesin berlebih dalam waktu lama','Kemasukan air (banjir)'],
+        effects: ['Suara gludug dari bawah mesin','Getaran berlebih di seluruh bodi','Mesin macet total'],
+        maintenance: ['Cek level oli setiap 1.000 km','Ukur runout dengan dial gauge saat overhaul besar','Ganti main bearing jika clearance melebihi batas'],
+        parts: {
+          esp110:['Crankshaft assy 110cc','Main bearing set','Oil seal crankshaft'],
+          esp125:['Crankshaft assy 125cc','Main bearing set','Oil seal'],
+          esp150:['Crankshaft assy 150cc','Main bearing set','Oil seal'],
+          espP160:['Crankshaft assy eSP+','Main bearing set','Oil seal'],
+          supra150:['Crankshaft assy Supra GTR','Main bearing set','Oil seal']
+        },
+        affects: ['piston','cvt_primary'], torque: 'Mur flywheel: 54 N·m'
       }
     }
   },
   cvt: {
-    label: "CVT & Transmisi", icon: "⚙️",
+    label: 'CVT & Transmisi', icon: ICON.belt,
     components: {
       cvt_primary: {
-        name:"Primary Sheave (Drive Pulley)", emoji:"🔄",
-        function:"Puli penggerak yang terhubung ke crankshaft; mengatur rasio transmisi bersama roller.",
-        specs:{"Beat 110":"Diameter: 120mm, roller 13g × 6 pcs, batas aus roller min: 13.0mm","Vario 125":"Diameter: 122mm, roller 16g × 6 pcs, batas aus roller min: 13.0mm"},
-        causes:["Roller aus tidak rata","Rumah roller aus (peyang)","Grease kering"],
-        effects:["Akselerasi tertunda/lemah","Getaran di setang saat akselerasi","RPM mesin tinggi tapi laju lambat"],
-        maintenance:["Cek & ganti roller setiap 15.000 km","Bersihkan CVT setiap 8.000 km","Periksa rumah roller dari keausan"],
-        parts:{"Beat 110":["Roller 13g set (6pcs)","Rumah roller","Muka puli primer"],"Vario 125":["Roller 16g set (6pcs)","Rumah roller","Muka puli primer"]},
-        affects:["vbelt","cvt_secondary"], torque:"Baut puli primer: 54 N·m"
+        name: 'Primary Sheave', icon: ICON.gear,
+        function: 'Puli penggerak pada sisi crankshaft yang mengatur rasio transmisi otomatis bersama roller.',
+        specs: {
+          esp110:'Roller 13 g × 6 pcs. Batas aus diameter roller: 13,0 mm.',
+          esp125:'Roller 16 g × 6 pcs. Batas aus: 13,0 mm.',
+          esp150:'Roller 18 g × 6 pcs. Batas aus: 13,0 mm.',
+          espP160:'Roller 20 g × 6 pcs. Batas aus: 13,0 mm. Sistem CVT eSP+ low-friction.',
+          supra150:'Tidak menggunakan CVT — sistem transmisi manual 4-speed.'
+        },
+        causes: ['Roller aus tidak merata','Rumah roller aus membentuk alur','Debu/pasir masuk akibat seal CVT rusak'],
+        effects: ['Akselerasi awal tertunda','Getaran di setang saat akselerasi','RPM tinggi tapi laju lambat'],
+        maintenance: ['Cek dan ganti roller setiap 15.000 km','Bersihkan ruang CVT setiap 8.000 km','Cek keausan face primer'],
+        parts: {
+          esp110:['Roller 13g set','Rumah roller','Fixed face primer'],
+          esp125:['Roller 16g set','Rumah roller','Fixed face primer'],
+          esp150:['Roller 18g set','Rumah roller','Fixed face primer'],
+          espP160:['Roller 20g set eSP+','Rumah roller','Fixed face primer'],
+          supra150:['—']
+        },
+        affects: ['vbelt','cvt_secondary'], torque: 'Mur puli primer: 54 N·m'
       },
       vbelt: {
-        name:"V-Belt", emoji:"〽️",
-        function:"Sabuk karet penghubung antara puli primer dan sekunder untuk memindahkan tenaga.",
-        specs:{"Beat 110":"Panjang: 771mm, lebar: 18.1mm, batas aus lebar: 16.5mm","Vario 125":"Panjang: 788mm, lebar: 20.0mm, batas aus lebar: 18.5mm"},
-        causes:["Usia pakai >20.000 km","CVT kemasukan air/debu","Puli tidak rata"],
-        effects:["Slip saat akselerasi mendadak","Bunyi bret dari CVT","Motor tidak bergerak padahal mesin hidup"],
-        maintenance:["Ganti V-belt setiap 20.000–25.000 km","Jangan paksa akselerasi mendadak","Periksa kondisi visual setiap 8.000 km"],
-        parts:{"Beat 110":["V-belt Honda Beat (23100-K1M-900)"],"Vario 125":["V-belt Honda Vario 125 (23100-KWN-900)"]},
-        affects:["cvt_secondary"], torque:"—"
+        name: 'V-Belt', icon: ICON.belt,
+        function: 'Sabuk karet penghubung puli primer dan sekunder, media pemindah tenaga utama.',
+        specs: {
+          esp110:'Panjang: 771 mm. Lebar std: 18,1 mm. Batas aus: ≥16,5 mm.',
+          esp125:'Panjang: 788 mm. Lebar std: 20,0 mm. Batas aus: ≥18,5 mm.',
+          esp150:'Panjang: 836 mm. Lebar std: 21,5 mm. Batas aus: ≥19,5 mm.',
+          espP160:'Panjang: 842 mm. Lebar std: 22,5 mm. Batas aus: ≥20,5 mm.',
+          supra150:'Tidak menggunakan V-belt — sistem rantai (chain drive).'
+        },
+        causes: ['Usia >20.000–25.000 km','CVT kemasukan air atau oli','Puli aus sehingga V-belt tidak normal'],
+        effects: ['Selip di tanjakan','Bunyi bret-bret dari CVT','Motor tidak bergerak (V-belt putus)'],
+        maintenance: ['Ganti V-belt setiap 20.000–25.000 km','Inspeksi visual setiap 8.000 km','Hindari akselerasi mendadak'],
+        parts: {
+          esp110:['V-belt Honda 110cc'],
+          esp125:['V-belt Honda Vario 125'],
+          esp150:['V-belt Honda Vario 150'],
+          espP160:['V-belt Honda eSP+ 160cc'],
+          supra150:['—']
+        },
+        affects: ['cvt_secondary'], torque: '—'
       },
       cvt_secondary: {
-        name:"Secondary Sheave & Kopling", emoji:"🔁",
-        function:"Puli sekunder yang menerima tenaga dari V-belt dan meneruskan ke roda via kampas kopling sentrifugal.",
-        specs:{"Beat 110":"Diameter kopling: 130mm, tebal kampas min: 2.0mm, engagement: 1.500–1.700 RPM","Vario 125":"Diameter kopling: 134mm, tebal kampas min: 2.0mm, engagement: 1.500–1.700 RPM"},
-        causes:["Kampas kopling aus/berminyak","Per kopling lemah","Rumah kopling aus"],
-        effects:["Motor slip di tanjakan","Akselerasi tertunda","Bunyi srek dari area CVT"],
-        maintenance:["Ganti kampas kopling setiap 20.000 km","Cek diameter dalam rumah kopling","Bersihkan dari debu kampas"],
-        parts:{"Beat 110":["Kampas kopling set Beat","Per kopling","Rumah kopling"],"Vario 125":["Kampas kopling set Vario 125","Per kopling","Rumah kopling"]},
-        affects:[], torque:"Mur puli sekunder: 39 N·m"
+        name: 'Secondary Sheave & Kopling', icon: ICON.cog,
+        function: 'Puli sekunder + kopling sentrifugal yang meneruskan tenaga dari V-belt ke roda belakang.',
+        specs: {
+          esp110:'Ø kopling: 130 mm. Tebal kampas min: 2,0 mm. Engagement: 1.500–1.700 RPM.',
+          esp125:'Ø kopling: 134 mm. Tebal kampas min: 2,0 mm.',
+          esp150:'Ø kopling: 134 mm. Tebal kampas min: 2,0 mm.',
+          espP160:'Ø kopling: 140 mm. Tebal kampas min: 2,0 mm. Material kampas eSP+.',
+          supra150:'Manual clutch — multi-plate wet clutch, 4-speed gearbox.'
+        },
+        causes: ['Kampas kopling aus','Per kopling lemah','Rumah kopling oval'],
+        effects: ['Motor slip di tanjakan','Akselerasi awal tertunda','Bunyi srek dari CVT'],
+        maintenance: ['Ukur tebal kampas — ganti jika <2,0 mm','Cek rumah kopling — ganti jika oval','Bersihkan debu kampas'],
+        parts: {
+          esp110:['Kampas kopling Beat/Scoopy','Per kopling','Clutch outer'],
+          esp125:['Kampas kopling Vario 125','Per kopling','Clutch outer'],
+          esp150:['Kampas kopling Vario 150','Per kopling','Clutch outer'],
+          espP160:['Kampas kopling eSP+ 160','Per kopling','Clutch outer'],
+          supra150:['Kampas kopling set manual','Per kopling']
+        },
+        affects: [], torque: 'Mur puli sekunder: 39 N·m'
       }
     }
   },
   fi: {
-    label: "Sistem FI & Bahan Bakar", icon: "💉",
+    label: 'Sistem FI', icon: ICON.fuel,
     components: {
       injector: {
-        name:"Injector", emoji:"💧",
-        function:"Menyemprotkan bahan bakar ke intake manifold dalam bentuk kabut halus sesuai perintah ECM.",
-        specs:{"Beat 110":"Tekanan kerja: 294 kPa (3.0 kgf/cm²), volume semprotan: ±13.6 cc/15 detik","Vario 125":"Tekanan kerja: 294 kPa, volume semprotan: ±14.2 cc/15 detik"},
-        causes:["Bensin kotor/bercampur air","Jarang ganti filter","Bensin RON rendah meninggalkan deposit"],
-        effects:["MIL berkedip (kode DTC)","Mesin brebet idle","Boros bensin","Sulit distarter dingin"],
-        maintenance:["Bersihkan injector setiap 20.000 km (ultrasonic/injector cleaner)","Selalu pakai bensin RON 90+","Ganti filter bensin setiap 20.000 km"],
-        parts:{"Beat 110":["Injector assy Beat FI","O-ring injector","Filter bensin"],"Vario 125":["Injector assy Vario 125","O-ring injector","Filter bensin"]},
-        affects:["ecm","fuel_pump"], torque:"Baut injector: 10 N·m"
+        name: 'Injector', icon: ICON.fuel,
+        function: 'Menyemprotkan bahan bakar dalam bentuk kabut halus ke intake port sesuai sinyal ECM.',
+        specs: {
+          esp110:'Tekanan kerja: 294 kPa. Volume: 13,6 cc/15 det @ 12V. Resistansi: 10–12 Ω.',
+          esp125:'Tekanan: 294 kPa. Volume: 14,2 cc/15 det. Resistansi: 10–12 Ω.',
+          esp150:'Tekanan: 294 kPa. Volume: 15,0 cc/15 det.',
+          espP160:'Tekanan: 320 kPa. Volume: 16,5 cc/15 det. 8-hole injector eSP+.',
+          supra150:'Tekanan: 294 kPa. Volume: 14,5 cc/15 det.'
+        },
+        causes: ['Bahan bakar kotor atau RON rendah','Filter bensin tidak diganti rutin','Air dalam tangki'],
+        effects: ['MIL berkedip (DTC aktif)','Idle tidak stabil','Boros bensin','Sulit start dingin'],
+        maintenance: ['Bersihkan setiap 20.000 km (ultrasonic/on-car)','Pakai bensin RON 90+','Ganti filter bensin setiap 20.000 km','Cek resistansi koil injector'],
+        parts: {
+          esp110:['Injector Honda FI','O-ring injector','Filter bensin'],
+          esp125:['Injector Vario 125','O-ring','Filter bensin'],
+          esp150:['Injector Vario 150','O-ring','Filter bensin'],
+          espP160:['Injector eSP+ 8-hole','O-ring','Filter bensin'],
+          supra150:['Injector Supra GTR','O-ring','Filter bensin']
+        },
+        affects: ['ecm','fuel_pump'], torque: 'Baut bracket injector: 10 N·m'
       },
       ecm: {
-        name:"ECM (Engine Control Module)", emoji:"🖥️",
-        function:"Otak sistem FI — memproses sinyal sensor dan mengatur waktu injeksi, pengapian, dan idle speed.",
-        specs:{"Beat 110":"Input: TPS, IAT, EOT, MAP, CKP | Output: injector, ignition coil, IACV","Vario 125":"Input: TPS, IAT, EOT, MAP, O2 sensor | Output: injector, ignition coil, IACV"},
-        causes:["Korsleting sistem kelistrikan","Konektor teroksidasi/basah","Lonjakan tegangan dari aki"],
-        effects:["MIL menyala terus (kode error)","Mesin tidak mau hidup sama sekali","Idle tidak stabil"],
-        maintenance:["Bersihkan konektor ECM dengan contact cleaner","Hindari modifikasi kelistrikan sembarangan","Reset ECM dengan Honda HDS jika error berulang"],
-        parts:{"Beat 110":["ECM Honda Beat FI","Konektor ECM set"],"Vario 125":["ECM Honda Vario 125","Konektor ECM set"]},
-        affects:["injector"], torque:"—"
+        name: 'ECM (Engine Control Module)', icon: ICON.cog,
+        function: 'Pusat kendali sistem FI yang memproses input sensor dan output injeksi, pengapian, idle.',
+        specs: {
+          esp110:'Input: TP, IAT, EOT, MAP, CKP. Tegangan kerja: 12V ±10%.',
+          esp125:'Input: TP, IAT, EOT, MAP, CKP, O2. Tegangan: 12V ±10%.',
+          esp150:'Input: TP, IAT, EOT, MAP, CKP, O2, Bank Angle. Tegangan: 12V ±10%.',
+          espP160:'Input lengkap eSP+ termasuk Side Stand & Bank Angle. ECM 32-bit.',
+          supra150:'Input dasar PGM-FI. Tegangan: 12V ±10%.'
+        },
+        causes: ['Korsleting sensor/aktuator','Konektor teroksidasi','Lonjakan tegangan kiprok'],
+        effects: ['MIL menyala terus dengan DTC','Mesin tidak bisa hidup','Idle tidak stabil'],
+        maintenance: ['Bersihkan konektor dengan contact cleaner','Periksa harness dari gesekan','Reset DTC dengan Honda HDS setelah perbaikan'],
+        parts: { esp110:['ECM Honda FI','Konektor & harness'], esp125:['ECM Vario 125','Konektor & harness'], esp150:['ECM Vario 150','Konektor'], espP160:['ECM eSP+ 32-bit','Konektor'], supra150:['ECM Supra GTR','Konektor'] },
+        affects: ['injector'], torque: 'Baut dudukan ECM: 5 N·m'
       },
       fuel_pump: {
-        name:"Fuel Pump", emoji:"⛽",
-        function:"Memompa bahan bakar dari tangki ke injector dengan tekanan konstan.",
-        specs:{"Beat 110":"Tekanan output: 294 kPa, kapasitas: min 28 cc/5 detik pada 12V","Vario 125":"Tekanan output: 294 kPa, kapasitas: min 30 cc/5 detik pada 12V"},
-        causes:["Bensin kotor menyumbat filter pump","Korosi tangki","Tegangan aki drop"],
-        effects:["Mesin mati tiba-tiba saat RPM tinggi","Sulit restart setelah panas","Tekanan bensin di bawah spesifikasi"],
-        maintenance:["Ganti filter bensin inline setiap 20.000 km","Jangan biarkan bensin hampir habis terus-menerus","Cek tekanan dengan fuel pressure gauge"],
-        parts:{"Beat 110":["Fuel pump assy Beat","Filter tangki","Selang bensin"],"Vario 125":["Fuel pump assy Vario 125","Filter tangki","Selang bensin"]},
-        affects:["injector"], torque:"Baut tangki: 12 N·m"
-      },
-      tps: {
-        name:"TPS (Throttle Position Sensor)", emoji:"📡",
-        function:"Mendeteksi posisi throttle dan mengirim sinyal ke ECM untuk menentukan kebutuhan bahan bakar.",
-        specs:{"Beat 110":"Output: 0.3V (idle) – 4.8V (full throttle), resistansi: 4–6 kΩ","Vario 125":"Output: 0.3V (idle) – 4.8V (full throttle), resistansi: 4–6 kΩ"},
-        causes:["Throttle body kotor","Konektor sensor longgar/korosi","Keausan mekanis sensor"],
-        effects:["Akselerasi tidak responsif","Idle berfluktuasi","MIL kode 7 (TPS error)"],
-        maintenance:["Bersihkan throttle body setiap 16.000 km","Kalibrasi TPS dengan HDS setelah pembersihan","Cek tegangan output dengan multimeter"],
-        parts:{"Beat 110":["TPS Honda Beat","Throttle body assy (jika perlu)"],"Vario 125":["TPS Honda Vario 125","Throttle body assy (jika perlu)"]},
-        affects:["ecm"], torque:"Baut TPS: 2 N·m"
+        name: 'Fuel Pump', icon: ICON.fuel,
+        function: 'Memompa bahan bakar dari tangki ke rail injector dengan tekanan konstan.',
+        specs: {
+          esp110:'Tegangan: 12V. Kapasitas: 28 cc/5 det. Tekanan: 294 kPa.',
+          esp125:'Tegangan: 12V. Kapasitas: 30 cc/5 det. Tekanan: 294 kPa.',
+          esp150:'Tegangan: 12V. Kapasitas: 32 cc/5 det. Tekanan: 294 kPa.',
+          espP160:'Tegangan: 12V. Kapasitas: 35 cc/5 det. Tekanan: 320 kPa eSP+.',
+          supra150:'Tegangan: 12V. Kapasitas: 30 cc/5 det. Tekanan: 294 kPa.'
+        },
+        causes: ['Filter pump tersumbat','Tegangan aki drop','Tangki berkarat'],
+        effects: ['Mati tiba-tiba saat RPM tinggi','Sulit restart setelah panas','Tekanan di bawah spek'],
+        maintenance: ['Dengar "nging" 2–3 detik saat kunci ON','Ganti filter in-tank setiap 20.000 km','Jangan biarkan bensin hampir habis terus','Ukur tekanan dengan fuel pressure gauge'],
+        parts: { esp110:['Fuel pump assy 110cc','Filter tangki','Selang bensin'], esp125:['Fuel pump assy 125','Filter','Selang'], esp150:['Fuel pump assy 150','Filter','Selang'], espP160:['Fuel pump assy eSP+','Filter','Selang'], supra150:['Fuel pump Supra GTR','Filter','Selang'] },
+        affects: ['injector'], torque: 'Baut tutup tangki: 12 N·m'
       }
     }
   },
   electrical: {
-    label: "Kelistrikan", icon: "⚡",
+    label: 'Kelistrikan', icon: ICON.zap,
     components: {
       battery: {
-        name:"Aki (Battery)", emoji:"🔋",
-        function:"Sumber listrik utama untuk starter, sistem FI, lampu, dan semua beban kelistrikan.",
-        specs:{"Beat 110":"12V 3.5Ah MF, tegangan normal: 12.4–12.8V, pengisian: 13.5–14.5V","Vario 125":"12V 5.0Ah MF, tegangan normal: 12.4–12.8V, pengisian: 13.5–14.5V"},
-        causes:["Usia >2 tahun","Jarang dipakai (self-discharge)","Kiprok rusak (overcharge/undercharge)","Beban kelistrikan berlebih"],
-        effects:["Starter elektrik lemah/tidak bisa","Lampu redup","MIL berkedip tidak normal","Klakson lemah"],
-        maintenance:["Cek tegangan setiap 3 bulan dengan voltmeter","Bersihkan terminal dari sulfasi","Ganti setiap 2–3 tahun","Pastikan output kiprok normal"],
-        parts:{"Beat 110":["Aki GS/Yuasa YTZ5S 12V-3.5Ah","Terminal aki","Grease terminal"],"Vario 125":["Aki GS/Yuasa YTZ7S 12V-5.0Ah","Terminal aki","Grease terminal"]},
-        affects:["regulator","starter_motor"], torque:"—"
+        name: 'Aki (Battery)', icon: ICON.zap,
+        function: 'Sumber listrik utama untuk starter, sistem FI, pengapian, lampu, dan semua beban kelistrikan.',
+        specs: {
+          esp110:'12V 3,5 Ah MF. Normal: 12,4–12,8V. Pengisian: 13,5–14,5V @ 5.000 RPM.',
+          esp125:'12V 5,0 Ah MF. Normal: 12,4–12,8V. Pengisian: 13,5–14,5V.',
+          esp150:'12V 5,0 Ah MF. Normal: 12,4–12,8V. Pengisian: 13,5–14,5V.',
+          espP160:'12V 5,0 Ah MF (Vario 160) / 12V 8,6 Ah (PCX 160). Pengisian: 14,0–14,8V.',
+          supra150:'12V 5,0 Ah MF. Normal: 12,4–12,8V.'
+        },
+        causes: ['Usia >2–3 tahun','Jarang dipakai (self-discharge)','Kiprok rusak (overcharge/undercharge)','Beban aksesori berlebih'],
+        effects: ['Starter lemah/tidak bisa','Lampu redup','FI tidak stabil','Klakson lemah'],
+        maintenance: ['Ukur tegangan setiap 3 bulan','Bersihkan terminal dari sulfasi','Ganti setiap 2–3 tahun','Cek output kiprok sebelum ganti aki baru'],
+        parts: { esp110:['Aki GTZ5S 12V-3,5Ah','Grease terminal'], esp125:['Aki GTZ7S 12V-5Ah','Grease terminal'], esp150:['Aki GTZ7S 12V-5Ah','Grease terminal'], espP160:['Aki GTZ8V atau YTX9-BS','Grease terminal'], supra150:['Aki GTZ7S 12V-5Ah','Grease terminal'] },
+        affects: ['regulator','starter_motor'], torque: 'Baut terminal aki: 3 N·m'
       },
       regulator: {
-        name:"Kiprok (Regulator/Rectifier)", emoji:"🔌",
-        function:"Mengubah arus AC dari spul menjadi DC dan menjaga tegangan pengisian aki tetap stabil.",
-        specs:{"Beat 110":"Output: 13.5–14.5V DC pada 5.000 RPM, arus maks: 7A","Vario 125":"Output: 13.5–14.5V DC pada 5.000 RPM, arus maks: 9A"},
-        causes:["Overheat (tertutup lumpur/kotoran)","Usia komponen","Short circuit pada sistem kelistrikan"],
-        effects:["Aki terus tekor atau overcharge","Lampu sering putus (overvoltage)","Sistem FI tidak stabil"],
-        maintenance:["Bersihkan sirip pendingin kiprok dari lumpur","Ukur tegangan output rutin","Jangan modifikasi jalur pengisian"],
-        parts:{"Beat 110":["Kiprok Honda Beat original","Konektor kiprok"],"Vario 125":["Kiprok Honda Vario 125 original","Konektor kiprok"]},
-        affects:["battery","spul"], torque:"Baut kiprok: 10 N·m"
+        name: 'Kiprok (Regulator)', icon: ICON.zap,
+        function: 'Mengubah arus AC dari spul menjadi DC dan menstabilkan tegangan pengisian aki.',
+        specs: {
+          esp110:'Output: 13,5–14,5V DC @ 5.000 RPM. Arus maks: 7A.',
+          esp125:'Output: 13,5–14,5V DC. Arus maks: 9A.',
+          esp150:'Output: 13,5–14,5V DC. Arus maks: 10A.',
+          espP160:'Output: 14,0–14,8V DC. Arus maks: 12A.',
+          supra150:'Output: 13,5–14,5V DC. Arus maks: 8A.'
+        },
+        causes: ['Overheating (sirip tertutup lumpur)','Usia semikonduktor internal','Short circuit sistem pengisian'],
+        effects: ['Aki tekor atau mendidih (overcharge)','Bohlam sering putus','FI tidak stabil'],
+        maintenance: ['Bersihkan sirip kiprok dari lumpur','Ukur tegangan output dengan multimeter','Hindari modifikasi kelistrikan'],
+        parts: { esp110:['Kiprok Beat/Scoopy original','Konektor'], esp125:['Kiprok Vario 125','Konektor'], esp150:['Kiprok Vario 150','Konektor'], espP160:['Kiprok eSP+ 12A','Konektor'], supra150:['Kiprok Supra GTR','Konektor'] },
+        affects: ['battery','spul'], torque: 'Baut kiprok: 10 N·m'
       },
       spul: {
-        name:"Spul (Stator/Generator)", emoji:"🌀",
-        function:"Menghasilkan arus listrik AC yang kemudian disearahkan kiprok untuk mengisi aki dan mensuplai kelistrikan.",
-        specs:{"Beat 110":"Resistansi lilitan: 0.1–1.0 Ω, output AC: 14–17V pada 5.000 RPM","Vario 125":"Resistansi lilitan: 0.1–1.0 Ω, output AC: 15–18V pada 5.000 RPM"},
-        causes:["Lilitan terbakar (overheating)","Kemasukan air/lumpur","Bearing rotor aus (menggores stator)"],
-        effects:["Aki tidak terisi sama sekali","Mesin mati di RPM tinggi (beban listrik besar)","Lampu berkedip"],
-        maintenance:["Cek resistansi lilitan dengan ohmmeter","Pastikan seal cover spul tidak bocor","Bersihkan dari lumpur setiap servis besar"],
-        parts:{"Beat 110":["Stator coil assy Beat","Gasket cover magnet","Oil seal"],"Vario 125":["Stator coil assy Vario 125","Gasket cover magnet","Oil seal"]},
-        affects:["regulator"], torque:"Baut stator: 12 N·m"
-      },
-      starter_motor: {
-        name:"Motor Starter", emoji:"🔑",
-        function:"Motor listrik yang memutar crankshaft untuk menghidupkan mesin saat tombol starter ditekan.",
-        specs:{"Beat 110":"Tegangan kerja: 12V, arus: 35–50A saat cranking, torsi: 0.8 N·m","Vario 125":"Tegangan kerja: 12V, arus: 40–55A saat cranking, torsi: 1.0 N·m"},
-        causes:["Aki lemah (penyebab utama)","Carbon brush habis","Armature terbakar","Relay starter rusak"],
-        effects:["Klik tapi mesin tidak muter","Suara ngung pelan saat starter","Tidak ada reaksi sama sekali"],
-        maintenance:["Jaga kondisi aki selalu prima","Ganti carbon brush setiap 30.000 km","Cek relay starter dengan ohmmeter"],
-        parts:{"Beat 110":["Motor starter assy Beat","Carbon brush set","Relay starter"],"Vario 125":["Motor starter assy Vario 125","Carbon brush set","Relay starter"]},
-        affects:["battery"], torque:"Baut motor starter: 12 N·m"
+        name: 'Spul (Stator Coil)', icon: ICON.cog,
+        function: 'Membangkitkan arus AC melalui induksi elektromagnetik dari putaran magnet rotor.',
+        specs: {
+          esp110:'Resistansi lilitan pengisian: 0,1–1,0 Ω. Output AC: 14–17V @ 5.000 RPM.',
+          esp125:'Resistansi: 0,1–1,0 Ω. Output AC: 15–18V.',
+          esp150:'Resistansi: 0,1–1,0 Ω. Output AC: 16–19V.',
+          espP160:'Resistansi: 0,1–1,0 Ω. Output AC: 17–20V @ 5.000 RPM.',
+          supra150:'Resistansi: 0,1–1,0 Ω. Output AC: 14–17V.'
+        },
+        causes: ['Lilitan terbakar (overheating/short)','Kemasukan air/lumpur','Magnet rotor longgar menggores stator'],
+        effects: ['Aki tidak terisi','Lampu berkedip di RPM rendah','Mesin bisa mati saat beban besar'],
+        maintenance: ['Ukur resistansi lilitan dengan ohmmeter','Pastikan oil seal cover magnet tidak bocor','Periksa kondisi magnet rotor'],
+        parts: { esp110:['Stator coil Beat/Scoopy','Gasket cover magnet'], esp125:['Stator coil Vario 125','Gasket'], esp150:['Stator coil Vario 150','Gasket'], espP160:['Stator coil eSP+','Gasket'], supra150:['Stator coil Supra GTR','Gasket'] },
+        affects: ['regulator'], torque: 'Baut stator: 12 N·m | Baut cover magnet: 10 N·m'
       }
     }
   },
   brake: {
-    label: "Rem (Brake System)", icon: "🛑",
+    label: 'Sistem Rem', icon: ICON.disc,
     components: {
       front_brake: {
-        name:"Rem Depan (Hydraulic Disc)", emoji:"💿",
-        function:"Sistem rem cakram hidrolik depan untuk pengereman utama dengan efisiensi tinggi.",
-        specs:{"Beat 110":"Diameter cakram: 220mm, tebal cakram min: 3.0mm (std: 3.5mm), kampas min: 1.5mm","Vario 125":"Diameter cakram: 240mm, tebal cakram min: 3.0mm (std: 4.0mm), kampas min: 1.5mm"},
-        causes:["Kampas habis","Minyak rem kotor/kurang","Cakram bengkok/bergelombang","Kaliper tersumbat"],
-        effects:["Pengereman tidak pakem","Bunyi ciiit saat rem","Tuas terasa dalam/kosong","Pulling ke satu sisi"],
-        maintenance:["Ganti kampas rem jika <1.5mm","Ganti minyak rem DOT 3 setiap 2 tahun / 24.000 km","Bleeding sistem hidrolik jika ada udara","Cek cakram dari goresan dalam"],
-        parts:{"Beat 110":["Kampas rem depan Beat","Minyak rem Honda DOT 3","Seal kaliper"],"Vario 125":["Kampas rem depan Vario 125","Minyak rem Honda DOT 3","Seal kaliper"]},
-        affects:[], torque:"Baut kaliper: 30 N·m | Baut cakram: 42 N·m"
+        name: 'Rem Depan (Disc)', icon: ICON.disc,
+        function: 'Rem cakram hidrolik depan — gaya pengereman utama melalui kaliper yang menjepit cakram.',
+        specs: {
+          esp110:'Ø cakram: 220 mm. Tebal std: 3,5 mm, min: 3,0 mm. Kampas min: 1,5 mm. DOT 3.',
+          esp125:'Ø cakram: 240 mm. Tebal std: 4,0 mm, min: 3,0 mm. Kampas min: 1,5 mm. DOT 3.',
+          esp150:'Ø cakram: 240 mm. Tebal std: 4,0 mm, min: 3,0 mm. Kampas min: 1,5 mm.',
+          espP160:'Ø cakram: 256 mm (Vario 160) / 220 mm (PCX 160 ABS). DOT 4 untuk varian ABS.',
+          supra150:'Ø cakram: 240 mm. Tebal std: 4,0 mm, min: 3,0 mm. DOT 3.'
+        },
+        causes: ['Kampas aus melebihi batas','Minyak rem kotor/mengandung udara','Cakram bergelombang/bengkok','Piston kaliper macet'],
+        effects: ['Jarak henti bertambah','Bunyi ciiit saat rem','Tuas terasa kosong (ada udara)','Motor menarik ke satu sisi'],
+        maintenance: ['Ganti kampas jika <1,5 mm','Ganti minyak rem setiap 2 tahun/24.000 km','Bleeding jika tuas kosong','Ukur tebal & kerataan cakram'],
+        parts: { esp110:['Kampas rem depan','Minyak rem DOT 3','Seal piston kaliper'], esp125:['Kampas Vario 125','Minyak DOT 3','Seal'], esp150:['Kampas Vario 150','Minyak DOT 3','Seal'], espP160:['Kampas eSP+ 160','Minyak DOT 4','Seal'], supra150:['Kampas Supra GTR','Minyak DOT 3','Seal'] },
+        affects: [], torque: 'Baut kaliper: 30 N·m | Baut cakram: 42 N·m'
       },
       rear_brake: {
-        name:"Rem Belakang (Drum)", emoji:"🥁",
-        function:"Sistem rem tromol belakang — lebih tahan kotor, ideal untuk kondisi jalan Indonesia.",
-        specs:{"Beat 110":"Diameter tromol: 130mm, tebal kampas min: 2.0mm (std: 4.0mm)","Vario 125":"Diameter tromol: 130mm, tebal kampas min: 2.0mm (std: 4.0mm)"},
-        causes:["Kampas habis","Kabel rem kendur/kaku","Tromol aus (oval)","Per kampas lemah"],
-        effects:["Rem tidak pakem","Bunyi srekk saat rem","Tuas/pedal rem terlalu dalam","Rem macet (dragging)"],
-        maintenance:["Setel kabel rem setiap servis (free play: 10–20mm)","Ganti kampas jika sudah tipis","Bersihkan debu kampas dari tromol","Lumasi pivot kabel rem"],
-        parts:{"Beat 110":["Kampas rem belakang set","Kabel rem belakang","Per kampas"],"Vario 125":["Kampas rem belakang set","Kabel rem belakang","Per kampas"]},
-        affects:[], torque:"Mur axle belakang: 59 N·m"
+        name: 'Rem Belakang', icon: ICON.disc,
+        function: 'Rem belakang — tromol mekanis (motor entry) atau cakram (varian premium).',
+        specs: {
+          esp110:'Tromol Ø 130 mm. Kampas std 4,0 mm, min 2,0 mm. Free play tuas: 10–20 mm.',
+          esp125:'Tromol Ø 130 mm. Kampas min 2,0 mm. Free play: 10–20 mm.',
+          esp150:'Tromol Ø 130 mm. Kampas min 2,0 mm.',
+          espP160:'Disc Ø 220 mm (PCX 160 ABS) atau tromol Ø 130 mm (Vario 160). Kampas min: 1,5 mm (disc) / 2,0 mm (tromol).',
+          supra150:'Tromol Ø 130 mm. Kampas min 2,0 mm.'
+        },
+        causes: ['Kampas aus','Kabel rem kendur/kaku','Tromol aus/oval','Per kampas lemah'],
+        effects: ['Rem tidak pakem','Bunyi srek (dragging)','Tuas/pedal sangat dalam','Roda macet'],
+        maintenance: ['Setel free play 10–20 mm','Ganti kampas jika <2,0 mm','Bersihkan debu kampas dengan kain (jangan tiup)','Ukur diameter dalam tromol'],
+        parts: { esp110:['Kampas rem belakang','Kabel rem','Per kampas'], esp125:['Kampas Vario 125','Kabel','Per kampas'], esp150:['Kampas Vario 150','Kabel','Per kampas'], espP160:['Kampas disc/tromol 160','Minyak rem DOT 4','Seal'], supra150:['Kampas Supra GTR','Kabel','Per kampas'] },
+        affects: [], torque: 'Mur as roda belakang: 59 N·m'
       },
-      cbs: {
-        name:"CBS (Combined Brake System)", emoji:"🔗",
-        function:"Sistem pengereman kombinasi — menekan tuas kiri otomatis mengaktifkan rem depan + belakang secara proporsional.",
-        specs:{"Beat 110":"Tersedia pada Beat CBS, distribusi: 30% depan : 70% belakang saat tuas kiri ditekan","Vario 125":"Tersedia pada Vario 125 CBS, distribusi: 30% depan : 70% belakang"},
-        causes:["Equalizer CBS aus/macet","Minyak rem habis (sisi depan)","Kabel CBS kendur"],
-        effects:["Rem tidak seimbang","Tuas kiri hanya rem belakang (CBS tidak aktif)","Bahaya tergelincir"],
-        maintenance:["Cek fungsi CBS setiap 12.000 km","Jangan modifikasi sistem CBS","Ganti minyak rem dan bleeding setiap 2 tahun"],
-        parts:{"Beat 110":["Equalizer CBS Beat","Kabel CBS"],"Vario 125":["Equalizer CBS Vario 125","Kabel CBS"]},
-        affects:["front_brake","rear_brake"], torque:"—"
+      abs: {
+        name: 'CBS / ABS', icon: ICON.shield,
+        function: 'Sistem pengereman tambahan: CBS (kombinasi rem) atau ABS (anti-lock).',
+        specs: {
+          esp110:'CBS — distribusi 30% depan : 70% belakang saat tuas kiri ditekan. Tersedia di Beat CBS.',
+          esp125:'CBS dengan distribusi 30:70.',
+          esp150:'CBS atau ABS (varian premium).',
+          espP160:'ABS 1-channel (depan) pada varian PCX 160 ABS dan Vario 160 ABS. Mengurangi tekanan saat roda akan terkunci.',
+          supra150:'Tidak tersedia — sistem rem konvensional.'
+        },
+        causes: ['Equalizer CBS aus/macet','Sensor ABS kotor (varian ABS)','Modul ABS rusak','Minyak rem habis'],
+        effects: ['Distribusi pengereman tidak seimbang','Pada ABS: lampu indikator ABS menyala','Roda mudah terkunci'],
+        maintenance: ['Periksa fungsi CBS/ABS setiap 12.000 km','Ganti kampas depan & belakang bersamaan (CBS)','Bersihkan sensor ABS dari kotoran','Jangan modifikasi sistem'],
+        parts: { esp110:['Equalizer CBS','Kabel CBS'], esp125:['Equalizer CBS','Kabel'], esp150:['Equalizer CBS','Kabel'], espP160:['Modul ABS','Sensor speed ABS','Kabel sensor'], supra150:['—'] },
+        affects: ['front_brake','rear_brake'], torque: '—'
       }
     }
   },
   suspension: {
-    label: "Suspensi & Kemudi", icon: "🏍️",
+    label: 'Suspensi & Kemudi', icon: ICON.shock,
     components: {
       front_fork: {
-        name:"Suspensi Depan (Telescopic Fork)", emoji:"🔱",
-        function:"Menyerap kejutan dari jalan dan menjaga kestabilan kemudi saat berkendara.",
-        specs:{"Beat 110":"Travel: 90mm, diameter tube: 31mm, oli garpu: Honda Ultra Fork Oil SS7, kapasitas: 90cc/leg","Vario 125":"Travel: 95mm, diameter tube: 33mm, oli garpu SS7, kapasitas: 95cc/leg"},
-        causes:["Seal garpu bocor (oli merembes)","Per garpu lemah/patah","Tabung garpu bengkok (benturan keras)","Oli garpu habis/kotor"],
-        effects:["Motor memantul berlebih (mental)","Handling tidak presisi","Bocor oli di kaki garpu","Suara klok-klok saat melewati lubang"],
-        maintenance:["Ganti seal garpu setiap 2 tahun atau jika bocor","Ganti oli garpu setiap 20.000 km","Cek kelurusan tabung garpu setiap servis"],
-        parts:{"Beat 110":["Seal garpu depan 31mm","Oli garpu SS7 90cc","Ring stopper seal"],"Vario 125":["Seal garpu depan 33mm","Oli garpu SS7 95cc","Ring stopper seal"]},
-        affects:[], torque:"Baut as garpu: 59 N·m | Baut top garpu: 20 N·m"
+        name: 'Suspensi Depan', icon: ICON.shock,
+        function: 'Menyerap kejutan jalan melalui per dan oli hidrolik, menjaga kontak ban dengan jalan.',
+        specs: {
+          esp110:'Ø tube 31 mm. Travel 90 mm. Oli Honda Ultra Fork SS7, 90 cc/leg.',
+          esp125:'Ø tube 33 mm. Travel 95 mm. Oli SS7, 95 cc/leg.',
+          esp150:'Ø tube 33 mm. Travel 100 mm. Oli SS7, 100 cc/leg.',
+          espP160:'Ø tube 33,4 mm (PCX 160 / Vario 160). Travel 100 mm. Oli SS19, 110 cc/leg.',
+          supra150:'Ø tube 31 mm. Travel 100 mm. Oli SS7, 90 cc/leg.'
+        },
+        causes: ['Seal garpu aus → oli merembes','Per garpu lemah/patah','Tabung bengkok akibat benturan','Oli garpu habis/kotor'],
+        effects: ['Motor memantul berlebih','Handling tidak presisi','Noda oli di bawah garpu','Bunyi klok-klok'],
+        maintenance: ['Ganti seal setiap 2 tahun atau jika bocor','Ganti oli garpu setiap 20.000 km','Cek kelurusan tabung dengan dial gauge'],
+        parts: { esp110:['Seal garpu 31mm','Oli SS7 100ml','Ring stopper'], esp125:['Seal garpu 33mm','Oli SS7','Ring stopper'], esp150:['Seal garpu 33mm','Oli SS7','Ring stopper'], espP160:['Seal garpu 33,4mm','Oli SS19','Ring stopper'], supra150:['Seal garpu 31mm','Oli SS7','Ring stopper'] },
+        affects: [], torque: 'Baut as garpu: 59 N·m | Baut klem: 20 N·m'
       },
       rear_suspension: {
-        name:"Suspensi Belakang (Mono Shock)", emoji:"🌊",
-        function:"Single shock absorber yang meredam guncangan roda belakang dan mengontrol gerakan ayunan.",
-        specs:{"Beat 110":"Travel: 57mm, penyetelan preload: 2 posisi (1 orang / 2 orang)","Vario 125":"Travel: 60mm, penyetelan preload: 2 posisi (1 orang / 2 orang)"},
-        causes:["Oli shock bocor","Gas habis (shock terasa empuk berlebih)","Per shock lemah/patah","Bushing aus"],
-        effects:["Motor limbung saat menikung","Pantat terasa memantul","Handling tidak stabil","Bunyi krek dari belakang"],
-        maintenance:["Setel preload sesuai beban penumpang","Ganti shock jika sudah >40.000 km atau bocor","Cek bushing pivot arm"],
-        parts:{"Beat 110":["Shock absorber belakang Beat","Bushing pivot"],"Vario 125":["Shock absorber belakang Vario 125","Bushing pivot"]},
-        affects:[], torque:"Baut shock absorber: 44 N·m"
-      },
-      steering: {
-        name:"Sistem Kemudi (Steering)", emoji:"🎮",
-        function:"Setang + bearing steering head untuk mengarahkan motor sesuai input pengendara.",
-        specs:{"Beat 110":"Sudut belok: kiri 43° / kanan 43°, bearing steering: taper roller bearing","Vario 125":"Sudut belok: kiri 41° / kanan 41°, bearing steering: taper roller bearing"},
-        causes:["Bearing steering aus/penyok (karena lubang besar)","Mur steering kendur","Setang bengkok"],
-        effects:["Setang berat dibelokkan","Getaran di setang (shimmy)","Motor tidak mau jalan lurus","Suara krek saat belok"],
-        maintenance:["Setel kekencangan steering head setiap 12.000 km","Ganti bearing steering setiap 30.000 km atau jika aus","Lumasi bearing dengan grease"],
-        parts:{"Beat 110":["Bearing steering set (taper)","Grease steering","Mur steering"],"Vario 125":["Bearing steering set (taper)","Grease steering","Mur steering"]},
-        affects:[], torque:"Mur steering atas: 103 N·m | Mur bawah: 74 N·m"
+        name: 'Suspensi Belakang', icon: ICON.shock,
+        function: 'Shock absorber yang menyerap guncangan roda belakang melalui kombinasi per dan oli/gas.',
+        specs: {
+          esp110:'Mono shock. Travel 57 mm. Preload: 2 posisi.',
+          esp125:'Mono shock. Travel 60 mm. Preload: 2 posisi.',
+          esp150:'Mono shock. Travel 70 mm.',
+          espP160:'Twin shock (PCX 160) / mono shock dengan sub-tank (Vario 160). Travel 90 mm.',
+          supra150:'Twin shock. Travel 95 mm. Preload: 5 posisi.'
+        },
+        causes: ['Oli shock bocor','Gas habis (terasa empuk palsu)','Per patah/kelelahan','Bushing pivot aus'],
+        effects: ['Motor limbung saat menikung','Memantul di jalan kasar','Handling tidak stabil','Bunyi krek'],
+        maintenance: ['Setel preload sesuai beban','Ganti shock jika >40.000 km atau bocor','Lumasi bushing pivot setiap 12.000 km'],
+        parts: { esp110:['Shock belakang Beat/Scoopy','Bushing pivot'], esp125:['Shock Vario 125','Bushing'], esp150:['Shock Vario 150','Bushing'], espP160:['Shock eSP+ sub-tank','Bushing'], supra150:['Twin shock Supra GTR','Bushing'] },
+        affects: [], torque: 'Baut shock: 44 N·m'
       }
     }
   }
 };
 
-// ═══════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════
-let currentMotor = "Beat 110";
-let currentSys = "engine";
-let currentComp = null;
-let currentCompTab = "fungsi";
-let dark = true;
-let leaderboard = [
-  {name:"Andi S.", score:18, total:20, time:"3:42"},
-  {name:"Budi R.", score:16, total:20, time:"4:10"},
-  {name:"Citra M.", score:15, total:20, time:"4:55"}
+// ============================================================
+// K3 & SOP QUIZ BANK (ATP/KD TSM)
+// ============================================================
+const K3_QUIZ = [
+  {type:'k3', question:'APD apa yang WAJIB dipakai saat membersihkan ruang CVT?', answer:'Masker debu, sarung tangan, dan kacamata safety', icon:ICON.shield, explain:'Debu kampas kopling CVT mengandung partikel halus yang berbahaya jika terhirup. APD lengkap melindungi dari debu, oli, dan tepi tajam komponen.', options:['Masker debu, sarung tangan, dan kacamata safety','Cukup sarung tangan saja','Hanya masker saja','Tidak perlu APD untuk servis CVT']},
+  {type:'k3', question:'Sebelum membongkar sistem bahan bakar FI, langkah K3 pertama yang benar adalah:', answer:'Pastikan mesin OFF minimal 5 menit dan jauhkan dari sumber api', icon:ICON.shield, explain:'Sistem FI memiliki tekanan residual 294 kPa dalam fuel line. Menunggu 5 menit memberi waktu tekanan turun dan mencegah semburan bensin.', options:['Pastikan mesin OFF minimal 5 menit dan jauhkan dari sumber api','Langsung bongkar karena bensin tidak mudah terbakar','Nyalakan kipas angin bengkel','Gunakan sarung tangan karet tebal']},
+  {type:'k3', question:'Debu kampas rem yang terhirup dapat menyebabkan:', answer:'Penyakit pernapasan jangka panjang', icon:ICON.alert, explain:'Beberapa kampas rem masih mengandung serat organik atau anorganik halus yang dapat mengendap di paru-paru dan menyebabkan gangguan pernapasan kronis.', options:['Penyakit pernapasan jangka panjang','Hanya iritasi ringan yang hilang sendiri','Tidak berbahaya — kampas rem modern aman','Mual sementara saja']},
+  {type:'k3', question:'Dalam proses kerja bengkel TSM, 5R berarti:', answer:'Ringkas, Rapi, Resik, Rawat, Rajin', icon:ICON.check, explain:'5R adalah adaptasi Indonesia dari 5S Jepang — budaya kerja yang menjaga area kerja bersih, terorganisir, dan efisien.', options:['Ringkas, Rapi, Resik, Rawat, Rajin','Rapih, Rajin, Rapi, Rasa, Rutinitas','Ringkas, Rapi, Resik, Rutin, Rahasia','Rajin, Resik, Riang, Ringkas, Rona']},
+  {type:'k3', question:'Saat melepas mur puli primer CVT (54 N·m), alat yang tepat digunakan adalah:', answer:'Kunci torsi dan rotor holder', icon:ICON.wrench, explain:'Mur puli primer terhubung ke crankshaft yang ikut berputar. Rotor holder menahan magnet/puli agar tidak ikut berputar saat melepas mur.', options:['Kunci torsi dan rotor holder','Kunci pas biasa dan tang jepit','Obeng minus untuk menahan puli','Kunci inggris besar']},
+  {type:'k3', question:'Langkah pertama dalam SOP servis motor di bengkel adalah:', answer:'Penerimaan kendaraan — catat keluhan di work order', icon:ICON.check, explain:'Work order yang baik mencatat keluhan, kondisi awal, dan kesepakatan dengan pelanggan — melindungi teknisi dan bengkel dari miskomunikasi.', options:['Penerimaan kendaraan — catat keluhan di work order','Langsung bongkar komponen yang dicurigai rusak','Test ride dahulu tanpa izin pelanggan','Cek stok suku cadang terlebih dahulu']},
+  {type:'k3', question:'Cairan minyak rem (DOT 3) berbahaya karena:', answer:'Korosif pada cat dan merusak mata', icon:ICON.alert, explain:'Minyak rem bersifat hygroscopic (menyerap air) dan korosif. Tumpahan pada cat tangki akan merusak permukaan, dan kontak dengan mata sangat berbahaya.', options:['Korosif pada cat dan merusak mata','Tidak berbahaya — bisa dicuci dengan air biasa','Hanya berbahaya jika diminum','Mudah terbakar jika kena api']},
+  {type:'k3', question:'SOP pengangkatan motor ke center stand yang aman:', answer:'Lantai rata, pegang setang & buntut, angkat bersamaan', icon:ICON.check, explain:'Lantai miring atau pengangkatan satu sisi menyebabkan motor jatuh. Teknik dua tangan dengan posisi tubuh seimbang adalah standar.', options:['Lantai rata, pegang setang & buntut, angkat bersamaan','Langsung angkat dari sisi kanan saja','Angkat dari depan — lebih mudah','Cukup angkat roda belakang saja']}
 ];
 
-// Quiz state
-let quizQuestions = [];
-let quizIndex = 0;
-let quizScore = 0;
-let quizSelected = null;
-let timeLeft = 20;
-let timerInterval = null;
+// ============================================================
+// STATE
+// ============================================================
+let curMotor = 'beat110';
+let curSys = 'engine';
+let curComp = null;
+let curTab = 'fungsi';
 
-// ═══════════════════════════════════════════════════════════
+let leaderboard = Store.get('lb') || [
+  {name:'Andi Saputra', score:18, total:20, time:'3:42'},
+  {name:'Budi Raharjo', score:16, total:20, time:'4:10'},
+  {name:'Citra Maharani', score:15, total:20, time:'4:55'}
+];
+
+let progress = Store.get('progress') || {time:0, q:0, best:null};
+let quizQ = [], qIdx = 0, qScore = 0, qSel = null, timeLeft = 20, timerI = null;
+
+// Troubleshoot state
+const TS_FLOW = {
+  symptoms: [
+    {id:'no_start', label:'Motor tidak bisa distarter', next:['battery_dead','starter_broken','no_fuel']},
+    {id:'no_power', label:'Tenaga lemah / akselerasi tertunda', next:['piston_worn','vbelt_slip','clutch_worn']},
+    {id:'smoke', label:'Keluar asap dari knalpot', next:['piston_worn']},
+    {id:'noise_cvt', label:'Bunyi tidak normal dari area CVT', next:['vbelt_slip','clutch_worn']},
+    {id:'brake_soft', label:'Rem terasa kosong / tidak pakem', next:['brake_air','brake_pad']}
+  ],
+  diagnoses: {
+    battery_dead: {sys:'electrical', comp:'battery', name:'Aki Lemah', desc:'Periksa tegangan aki dengan voltmeter. Jika <12V, kemungkinan aki sudah harus diganti.'},
+    starter_broken: {sys:'electrical', comp:'battery', name:'Sistem Starter Bermasalah', desc:'Cek motor starter dan relay. Tegangan aki normal tapi starter tidak putar = motor starter atau relay rusak.'},
+    no_fuel: {sys:'fi', comp:'fuel_pump', name:'Sistem Bahan Bakar Tersumbat', desc:'Dengar suara fuel pump saat kunci ON. Tidak ada suara = fuel pump rusak atau filter tersumbat.'},
+    piston_worn: {sys:'engine', comp:'piston', name:'Piston / Ring Aus', desc:'Asap putih + tenaga turun = oli masuk ruang bakar. Perlu top overhaul, ukur diameter piston dan ring gap.'},
+    vbelt_slip: {sys:'cvt', comp:'vbelt', name:'V-Belt Aus', desc:'V-belt yang aus menyebabkan selip terutama di tanjakan. Ganti jika lebar <16,5mm (Beat) atau ada retakan.'},
+    clutch_worn: {sys:'cvt', comp:'cvt_secondary', name:'Kampas Kopling Aus', desc:'Bunyi srek + akselerasi tertunda = kampas kopling sentrifugal tipis. Ganti jika tebal <2,0mm.'},
+    brake_air: {sys:'brake', comp:'front_brake', name:'Udara dalam Sistem Rem', desc:'Tuas rem kosong = ada udara dalam saluran hidrolik. Lakukan bleeding rem dengan minyak DOT 3 baru.'},
+    brake_pad: {sys:'brake', comp:'front_brake', name:'Kampas Rem Habis', desc:'Bunyi ciiit + jarak henti jauh = kampas habis. Ganti kampas, periksa juga ketebalan cakram.'}
+  }
+};
+let tsState = {step:0, choice:null};
+
+// ============================================================
 // NAVIGATION
-// ═══════════════════════════════════════════════════════════
-function showPage(p) {
+// ============================================================
+function goto(p) {
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
   document.getElementById('page-' + p).classList.add('active');
-  document.getElementById('nb-' + p).classList.add('active');
-  if (p === 'catalog') renderCatalog();
+  document.querySelector(`.nav-tab[data-tab="${p}"]`)?.classList.add('active');
+  window.scrollTo(0, 0);
+  if (p === 'materi') renderMateri();
   if (p === 'leaderboard') renderLeaderboard();
+  if (p === 'home') renderHome();
 }
 
-function toggleTheme() {
-  dark = !dark;
-  document.body.classList.toggle('light', !dark);
-  document.getElementById('nb-theme').textContent = dark ? '☀️' : '🌙';
-}
-
-// ═══════════════════════════════════════════════════════════
+// ============================================================
 // HOME
-// ═══════════════════════════════════════════════════════════
+// ============================================================
 function renderHome() {
-  const list = document.getElementById('home-sys-list');
-  list.innerHTML = Object.entries(SYSTEMS).map(([k,s]) => `
-    <div class="sys-item" onclick="showPage('catalog');setActiveSys('${k}')">
-      <span style="font-size:20px">${s.icon}</span>
-      <div>
-        <div style="font-weight:700;font-size:12px">${s.label}</div>
-        <div style="font-size:10px;color:#888">${Object.keys(s.components).length} komponen</div>
+  // Stats
+  let totalComp = 0;
+  Object.values(SYSTEMS).forEach(s => totalComp += Object.keys(s.components).length);
+  document.getElementById('stat-comp').textContent = totalComp;
+  document.getElementById('stat-lb').textContent = leaderboard.length;
+
+  // Date
+  const d = new Date();
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  document.getElementById('today-date').textContent = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+
+  // Progress
+  document.getElementById('prog-time').textContent = `${progress.time || 0} menit`;
+  document.getElementById('prog-q').textContent = progress.q || 0;
+  document.getElementById('prog-best').textContent = progress.best ? `${progress.best}/20` : '—';
+
+  // Systems list (top 4)
+  document.getElementById('home-sys').innerHTML = Object.entries(SYSTEMS).slice(0,5).map(([k,s]) => `
+    <button class="sys-item" onclick="curSys='${k}';goto('materi')">
+      <div class="ic-wrap"><span class="ic-sm" style="display:flex;align-items:center;justify-content:center;width:16px;height:16px">${s.icon}</span></div>
+      <div style="flex:1;text-align:left">
+        <div class="name">${s.label}</div>
+        <div class="desc">${Object.keys(s.components).length} komponen</div>
       </div>
-      <span class="sys-arrow">›</span>
-    </div>
+      <span class="arrow">${ICON.arrow}</span>
+    </button>
   `).join('');
 }
 
-// ═══════════════════════════════════════════════════════════
-// CATALOG
-// ═══════════════════════════════════════════════════════════
-function setMotor(m) {
-  currentMotor = m;
-  document.getElementById('mb-beat').classList.toggle('active', m === 'Beat 110');
-  document.getElementById('mb-vario').classList.toggle('active', m === 'Vario 125');
-  if (currentComp) renderCompDetail(currentComp);
-}
+// ============================================================
+// MATERI / CATALOG
+// ============================================================
+function renderMateri() {
+  document.getElementById('materi-list-view').style.display = 'block';
+  document.getElementById('materi-detail-view').style.display = 'none';
 
-function setActiveSys(k) {
-  currentSys = k;
-  currentComp = null;
-  renderCatalog();
-}
+  // Motor scroll
+  document.getElementById('motor-scroll').innerHTML = Object.entries(MOTORS).map(([k,m]) => `
+    <button class="motor-chip ${k===curMotor?'active':''}" onclick="setMotor('${k}')">${m.name}</button>
+  `).join('');
 
-function renderCatalog() {
   // Sys tabs
-  const tabs = document.getElementById('sys-tabs');
-  tabs.innerHTML = Object.entries(SYSTEMS).map(([k,s]) =>
-    `<button class="sys-tab ${k===currentSys?'active':''}" onclick="setActiveSys('${k}')">${s.icon} ${s.label.split(' ')[0]}</button>`
-  ).join('');
+  document.getElementById('sys-tabs').innerHTML = Object.entries(SYSTEMS).map(([k,s]) => `
+    <button class="sys-tab ${k===curSys?'active':''}" onclick="setSys('${k}')">${s.label.split(' ')[0]}</button>
+  `).join('');
 
-  if (currentComp) {
-    document.getElementById('comp-list').style.display = 'none';
-    document.getElementById('comp-detail').style.display = 'block';
-    renderCompDetail(currentComp);
-  } else {
-    showCompList();
-  }
+  const sys = SYSTEMS[curSys];
+  document.getElementById('cat-title').textContent = sys.label;
+
+  document.getElementById('comp-list').innerHTML = Object.entries(sys.components).map(([k,c]) => `
+    <button class="comp-card" onclick="openComp('${k}')">
+      <div class="ic-box">${c.icon}</div>
+      <div class="name">${c.name}</div>
+      <div class="desc">${c.function.substring(0, 65)}...</div>
+      ${c.affects.length ? `<span class="badge">${c.affects.length} terdampak</span>` : ''}
+    </button>
+  `).join('');
+
+  // Troubleshoot
+  if (tsState.step === 0) renderTSStep0();
 }
 
-function showCompList() {
-  currentComp = null;
-  document.getElementById('comp-list').style.display = 'block';
-  document.getElementById('comp-detail').style.display = 'none';
-  const sys = SYSTEMS[currentSys];
-  const list = document.getElementById('comp-list');
-  list.innerHTML = `
-    <div style="font-weight:900;font-size:15px;margin-bottom:12px">${sys.icon} ${sys.label}</div>
-    <div class="comp-grid">
-      ${Object.entries(sys.components).map(([k,c]) => `
-        <button class="comp-card" onclick="openComp('${k}')">
-          <div class="cc-icon">${c.emoji}</div>
-          <div class="cc-name">${c.name}</div>
-          <div class="cc-desc">${c.function.substring(0,55)}...</div>
-          ${c.affects.length > 0 ? `<span class="badge-red">⚠ ${c.affects.length} dampak</span>` : ''}
-        </button>
-      `).join('')}
-    </div>
-  `;
-}
+function setMotor(k) { curMotor = k; renderMateri(); if (curComp) renderDetail(curComp); }
+function setSys(k) { curSys = k; curComp = null; renderMateri(); }
 
 function openComp(k) {
-  currentComp = k;
-  currentCompTab = 'fungsi';
-  document.getElementById('comp-list').style.display = 'none';
-  document.getElementById('comp-detail').style.display = 'block';
-  renderCompDetail(k);
+  curComp = k; curTab = 'fungsi';
+  document.getElementById('materi-list-view').style.display = 'none';
+  document.getElementById('materi-detail-view').style.display = 'block';
+  renderDetail(k);
+  window.scrollTo(0, 0);
 }
 
-function renderCompDetail(k) {
-  const comp = SYSTEMS[currentSys].components[k];
-  if (!comp) return;
+function closeDetail() {
+  curComp = null;
+  document.getElementById('materi-list-view').style.display = 'block';
+  document.getElementById('materi-detail-view').style.display = 'none';
+}
 
-  document.getElementById('detail-header').innerHTML = `
-    <div style="font-size:32px;margin-bottom:6px">${comp.emoji}</div>
-    <div style="font-weight:900;font-size:16px">${comp.name}</div>
-    <div style="font-size:11px;opacity:0.8;margin-top:4px;line-height:1.5">${comp.function}</div>
+function renderDetail(k) {
+  // Find which system contains this component
+  let sys = null, sysKey = null;
+  Object.entries(SYSTEMS).forEach(([sk, s]) => { if (s.components[k]) { sys = s; sysKey = sk; } });
+  if (!sys) return;
+  curSys = sysKey;
+  const c = sys.components[k];
+  const fam = MOTORS[curMotor].family;
+  const motorName = MOTORS[curMotor].name;
+
+  document.getElementById('detail-hero').innerHTML = `
+    <div class="ic-mark"><span style="display:inline-block;width:32px;height:32px">${c.icon}</span></div>
+    <div class="title">${c.name}</div>
+    <div class="func">${c.function}</div>
   `;
 
-  document.getElementById('detail-tabs').innerHTML =
-    [['fungsi','📋 Spek'],['penyebab','⚠ Penyebab'],['dampak','💥 Dampak'],['servis','🔧 Servis']].map(([t,l]) =>
-      `<button class="comp-tab ${currentCompTab===t?'active':''}" onclick="setCompTab('${k}','${t}')">${l}</button>`
-    ).join('');
+  const tabs = [['fungsi','Spesifikasi'],['penyebab','Penyebab'],['dampak','Dampak'],['servis','Servis']];
+  document.getElementById('detail-tabs').innerHTML = tabs.map(([t,l]) =>
+    `<button class="detail-tab ${curTab===t?'active':''}" onclick="setTab('${k}','${t}')">${l}</button>`
+  ).join('');
 
-  const content = document.getElementById('detail-content');
-  const motor = currentMotor;
+  const el = document.getElementById('detail-content');
 
-  if (currentCompTab === 'fungsi') {
-    const specs = Object.entries(comp.specs).map(([m,v]) => `
-      <div class="spec-card">
-        <div class="spec-motor">${m}</div>
-        <div class="spec-val">${v}</div>
+  if (curTab === 'fungsi') {
+    const spec = c.specs[fam] || c.specs.esp110;
+    el.innerHTML = `
+      <div class="spec-block">
+        <div class="spec-motor">${motorName}</div>
+        <div class="spec-val">${spec}</div>
+      </div>
+      ${c.torque && c.torque !== '—' ? `
+        <div class="torque-block">
+          <div class="torque-label">Torsi Pengencangan</div>
+          <div class="torque-val">${c.torque}</div>
+        </div>
+      ` : ''}
+    `;
+  } else if (curTab === 'penyebab') {
+    el.innerHTML = c.causes.map((cause,i) => `
+      <div class="info-row cause">
+        <span class="row-ic" style="color:var(--amber)"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+        <span class="row-txt"><strong>${i+1}.</strong> ${cause}</span>
       </div>
     `).join('');
-    const torque = comp.torque && comp.torque !== '—' ? `
-      <div class="torque-card">
-        <div class="torque-label">TORSI PENGENCANGAN</div>
-        <div class="torque-val">${comp.torque}</div>
-      </div>
-    ` : '';
-    content.innerHTML = specs + torque;
-  } else if (currentCompTab === 'penyebab') {
-    content.innerHTML = comp.causes.map((c,i) => `
-      <div class="item-row yellow">
-        <span class="icon" style="color:#d97706;font-weight:900">${i+1}.</span>
-        <span class="txt">${c}</span>
+  } else if (curTab === 'dampak') {
+    const fx = c.effects.map(e => `
+      <div class="info-row effect">
+        <span class="row-ic" style="color:var(--red)"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <span class="row-txt">${e}</span>
       </div>
     `).join('');
-  } else if (currentCompTab === 'dampak') {
-    const effects = comp.effects.map(e => `
-      <div class="item-row red">
-        <span class="icon" style="color:#CC0000">⚠</span>
-        <span class="txt">${e}</span>
-      </div>
-    `).join('');
-    const affected = comp.affects.length > 0 ? `
-      <div class="section-label">KOMPONEN TERDAMPAK:</div>
-      ${comp.affects.map(a => {
+    const aff = c.affects.length ? `
+      <div class="section-label">Komponen yang Ikut Terdampak</div>
+      ${c.affects.map(a => {
         let found = null;
-        Object.values(SYSTEMS).forEach(s => { if(s.components[a]) found = s.components[a]; });
+        Object.values(SYSTEMS).forEach(s => { if (s.components[a]) found = s.components[a]; });
         return found ? `
-          <div class="affected-chip">
-            <span>${found.emoji}</span>
-            <span style="font-size:12px;font-weight:700">${found.name}</span>
-          </div>
+          <button class="affected-chip" onclick="openComp('${a}')">
+            <div class="ic-box">${found.icon}</div>
+            <div class="name">${found.name}</div>
+            <span style="color:var(--red)">${ICON.arrow}</span>
+          </button>
         ` : '';
       }).join('')}
     ` : '';
-    content.innerHTML = effects + affected;
-  } else if (currentCompTab === 'servis') {
-    const maint = `
-      <div class="section-label">LANGKAH PERAWATAN:</div>
-      ${comp.maintenance.map(m => `
-        <div class="item-row green">
-          <span class="icon" style="color:#16a34a">✓</span>
-          <span class="txt">${m}</span>
+    el.innerHTML = fx + aff;
+  } else if (curTab === 'servis') {
+    const parts = c.parts[fam] || c.parts.esp110 || [];
+    el.innerHTML = `
+      <div class="section-label">Langkah Perawatan</div>
+      ${c.maintenance.map(m => `
+        <div class="info-row maint">
+          <span class="row-ic" style="color:var(--green)"><svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span class="row-txt">${m}</span>
         </div>
       `).join('')}
-    `;
-    const parts = (comp.parts[motor] || comp.parts['Beat 110'] || []).filter(Boolean);
-    const partsHtml = `
-      <div class="section-label">PART YANG DIBUTUHKAN (${motor}):</div>
+      <div class="section-label">Suku Cadang · ${motorName}</div>
       ${parts.map(p => `
         <div class="part-row">
-          <span style="color:#d97706">🔩</span>
+          <span style="color:var(--amber)"><svg style="width:13px;height:13px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
           <span>${p}</span>
         </div>
       `).join('')}
     `;
-    content.innerHTML = maint + partsHtml;
   }
 }
 
-function setCompTab(k, t) {
-  currentCompTab = t;
-  renderCompDetail(k);
+function setTab(k, t) { curTab = t; renderDetail(k); }
+
+// ============================================================
+// TROUBLESHOOT
+// ============================================================
+function startTroubleshoot() {
+  tsState = {step:0, choice:null};
+  renderTSStep0();
 }
 
-// ═══════════════════════════════════════════════════════════
+function renderTSStep0() {
+  document.getElementById('ts-step-label').textContent = 'Langkah 1 dari 2 · Pilih Gejala';
+  document.getElementById('ts-q').textContent = 'Apa gejala yang dialami motor?';
+  document.getElementById('ts-opts').innerHTML = TS_FLOW.symptoms.map(s =>
+    `<button class="ts-opt" onclick="selectSymptom('${s.id}')">${s.label}</button>`
+  ).join('');
+  document.getElementById('ts-result').style.display = 'none';
+}
+
+function selectSymptom(id) {
+  const symp = TS_FLOW.symptoms.find(s => s.id === id);
+  tsState.symptom = id;
+  document.getElementById('ts-step-label').textContent = 'Langkah 2 dari 2 · Spesifikasi Masalah';
+  document.getElementById('ts-q').textContent = `Untuk gejala "${symp.label}", manakah penyebab paling mungkin?`;
+  document.getElementById('ts-opts').innerHTML = symp.next.map(dId => {
+    const d = TS_FLOW.diagnoses[dId];
+    return `<button class="ts-opt" onclick="showDiagnosis('${dId}')">${d.name}</button>`;
+  }).join('');
+}
+
+function showDiagnosis(dId) {
+  const d = TS_FLOW.diagnoses[dId];
+  document.getElementById('ts-opts').innerHTML = '';
+  document.getElementById('ts-step-label').textContent = '✓ Hasil Diagnosis';
+  document.getElementById('ts-q').textContent = 'Kemungkinan komponen bermasalah:';
+  const r = document.getElementById('ts-result');
+  r.style.display = 'block';
+  r.innerHTML = `
+    <div class="ts-result">
+      <div class="label">Diagnosis</div>
+      <div class="name">${d.name}</div>
+      <div class="desc">${d.desc}</div>
+      <button class="btn-outline" style="margin-top:12px" onclick="openComp('${d.comp}')">Lihat Detail Komponen →</button>
+    </div>
+  `;
+}
+
+// ============================================================
 // QUIZ
-// ═══════════════════════════════════════════════════════════
-function getAllNames() {
-  const n = [];
-  Object.values(SYSTEMS).forEach(s => Object.values(s.components).forEach(c => n.push(c.name)));
-  return n;
-}
-
+// ============================================================
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
-
-function makeOptions(correct, all, n=4) {
-  const others = shuffle(all.filter(x => x !== correct)).slice(0, n-1);
-  return shuffle([correct, ...others]);
+function getAllNames() {
+  const n = []; Object.values(SYSTEMS).forEach(s => Object.values(s.components).forEach(c => n.push(c.name))); return n;
+}
+function makeOpts(correct, all, n=4) {
+  return shuffle([correct, ...shuffle(all.filter(x => x !== correct)).slice(0, n-1)]);
 }
 
-function buildQuizBank() {
-  const bank = [];
-  const allNames = getAllNames();
-  Object.values(SYSTEMS).forEach(sys => {
-    Object.entries(sys.components).forEach(([k, comp]) => {
-      bank.push({type:'tebak_fungsi', question:`Komponen apa ini?\n\n"${comp.function}"`, answer:comp.name, icon:comp.emoji, options:makeOptions(comp.name, allNames)});
-      if(comp.effects.length >= 2) bank.push({type:'diagnosis', question:`Gejala berikut ditemukan:\n\n"${comp.effects[0]}"\n\n"${comp.effects[1]}"\n\nKomponen mana yang bermasalah?`, answer:comp.name, icon:'🔍', options:makeOptions(comp.name, allNames)});
-      bank.push({type:'truefalse', question:`Spesifikasi Honda Beat 110:\n\n"${comp.specs['Beat 110']}"`, answer:'BENAR', icon:'📋', options:['BENAR','SALAH']});
-      if(comp.causes.length >= 2) {
-        const wrong = 'Bensin dicampur air mineral';
-        bank.push({type:'penyebab', question:`Komponen ${comp.name} rusak. Mana yang BUKAN penyebab umumnya?`, answer:wrong, icon:'⚠️', options:shuffle([...comp.causes.slice(0,3), wrong])});
-      }
-    });
-  });
+function buildBank() {
+  const bank = [], allNames = getAllNames();
+  Object.values(SYSTEMS).forEach(sys => Object.entries(sys.components).forEach(([k,c]) => {
+    bank.push({type:'tebak', question:`Komponen apa yang dimaksud?\n\n"${c.function}"`, answer:c.name, icon:c.icon, options:makeOpts(c.name, allNames), explain:`${c.name} berfungsi: ${c.function}`});
+    if (c.effects.length >= 2) bank.push({type:'diagnosis', question:`Gejala yang ditemukan:\n• ${c.effects[0]}\n• ${c.effects[1]}\n\nKomponen mana yang bermasalah?`, answer:c.name, icon:ICON.alert, options:makeOpts(c.name, allNames), explain:`Gejala tersebut khas untuk kerusakan ${c.name}.`});
+    const spec = c.specs.esp110 || Object.values(c.specs)[0];
+    bank.push({type:'truefalse', question:`Pernyataan untuk Honda Beat 110 — BENAR atau SALAH?\n\n"${spec}"`, answer:'BENAR', icon:ICON.check, options:['BENAR','SALAH'], explain:`Pernyataan ini diambil dari spesifikasi Manual Service ${c.name} untuk Honda Beat 110.`});
+    if (c.causes.length >= 2) {
+      const dummy = 'Menggunakan bahan bakar Pertamax 92';
+      bank.push({type:'penyebab', question:`Komponen ${c.name} mengalami kerusakan.\nManakah yang BUKAN penyebab umumnya?`, answer:dummy, icon:ICON.alert, options:shuffle([...c.causes.slice(0,3), dummy]), explain:`Pertamax 92 (RON 92) justru direkomendasikan Honda untuk mesin FI — bukan penyebab kerusakan.`});
+    }
+  }));
+  bank.push(...K3_QUIZ);
   return bank;
 }
 
 function startQuiz() {
-  clearInterval(timerInterval);
-  const bank = buildQuizBank();
-  quizQuestions = shuffle(bank).slice(0, 20);
-  quizIndex = 0;
-  quizScore = 0;
-  quizSelected = null;
-  timeLeft = 20;
-
-  document.getElementById('quiz-start-screen').style.display = 'none';
-  document.getElementById('quiz-result-screen').style.display = 'none';
-  document.getElementById('quiz-active-screen').style.display = 'block';
-  renderQuestion();
+  clearInterval(timerI);
+  quizQ = shuffle(buildBank()).slice(0, 20);
+  qIdx = 0; qScore = 0; qSel = null; timeLeft = 20;
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'block';
+  document.getElementById('q-total').textContent = quizQ.length;
+  renderQ();
 }
 
-function renderQuestion() {
-  if (quizIndex >= quizQuestions.length) { showResult(); return; }
-  const q = quizQuestions[quizIndex];
-  quizSelected = null;
-  timeLeft = 20;
+function exitQuiz() {
+  clearInterval(timerI);
+  document.getElementById('quiz-active').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-start').style.display = 'block';
+}
 
-  const typeLabels = {tebak_fungsi:'🔍 Tebak Komponen', diagnosis:'🩺 Diagnosis Gejala', truefalse:'✅ Benar / Salah', penyebab:'⚠️ Temukan Penyebab'};
-  document.getElementById('q-counter').textContent = `Soal ${quizIndex+1} / ${quizQuestions.length}`;
-  document.getElementById('q-type-badge').textContent = typeLabels[q.type] || '🔍';
-  document.getElementById('q-icon').textContent = q.icon;
+function renderQ() {
+  if (qIdx >= quizQ.length) { showResult(); return; }
+  const q = quizQ[qIdx]; qSel = null; timeLeft = 20;
+  const labels = {tebak:'Tebak Komponen', diagnosis:'Diagnosis Gejala', truefalse:'Benar / Salah', penyebab:'Temukan Penyebab', k3:'K3 & SOP'};
+
+  document.getElementById('q-count').textContent = `Soal ${qIdx+1} / ${quizQ.length}`;
+  document.getElementById('q-badge').textContent = labels[q.type] || '';
+  document.getElementById('q-ic').innerHTML = `<span style="display:inline-block;width:32px;height:32px">${q.icon}</span>`;
   document.getElementById('q-text').textContent = q.question;
-  document.getElementById('q-progress').style.width = `${(quizIndex/quizQuestions.length)*100}%`;
-  document.getElementById('q-score-display').textContent = quizScore;
-  document.getElementById('q-answered').textContent = quizIndex;
+  document.getElementById('q-img-wrap').innerHTML = '';
+  document.getElementById('q-fill').style.width = `${(qIdx/quizQ.length)*100}%`;
+  document.getElementById('q-score').textContent = qScore;
+  document.getElementById('q-done').textContent = qIdx;
+  document.getElementById('q-feedback').innerHTML = '';
   updateTimer();
 
-  const opts = document.getElementById('q-options');
-  opts.innerHTML = (q.options||[]).map((opt,i) => `
-    <button class="quiz-opt" onclick="handleAnswer('${opt.replace(/'/g,"\\'")}')">
-      <span class="opt-letter">${['A','B','C','D'][i]}.</span>${opt}
-    </button>
-  `).join('');
+  document.getElementById('q-opts').innerHTML = (q.options||[]).map((o,i) =>
+    `<button class="q-opt" onclick="handleAns('${String(o).replace(/'/g,"\\'")}')">
+      <span class="letter">${['A','B','C','D'][i]}.</span>${o}
+    </button>`
+  ).join('');
 
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimer();
-    if (timeLeft <= 0) { clearInterval(timerInterval); handleAnswer(null); }
+  clearInterval(timerI);
+  timerI = setInterval(() => {
+    timeLeft--; updateTimer();
+    if (timeLeft <= 0) { clearInterval(timerI); handleAns(null); }
   }, 1000);
 }
 
 function updateTimer() {
-  const el = document.getElementById('q-timer');
-  el.textContent = `⏱ ${timeLeft}s`;
-  el.className = timeLeft <= 5 ? 'timer-warn' : 'timer-ok';
+  const el = document.getElementById('q-time');
+  el.textContent = `${timeLeft}s`;
+  el.className = timeLeft <= 5 ? 'q-time warn' : 'q-time ok';
 }
 
-function handleAnswer(opt) {
-  clearInterval(timerInterval);
-  if (quizSelected !== null) return;
-  quizSelected = opt;
-  const q = quizQuestions[quizIndex];
-  const correct = (opt !== null && opt === q.answer);
-  if (correct) quizScore++;
+function handleAns(opt) {
+  clearInterval(timerI);
+  if (qSel !== null) return;
+  qSel = opt;
+  const q = quizQ[qIdx];
+  const ok = opt !== null && opt === q.answer;
+  if (ok) qScore++;
 
-  const btns = document.querySelectorAll('.quiz-opt');
-  btns.forEach((btn, i) => {
-    const o = q.options[i];
-    btn.disabled = true;
+  document.querySelectorAll('.q-opt').forEach((btn, i) => {
+    const o = q.options[i]; btn.disabled = true;
     if (o === q.answer) { btn.classList.add('correct'); btn.innerHTML += ' ✓'; }
-    else if (o === opt && !correct) { btn.classList.add('wrong'); btn.innerHTML += ' ✗'; }
+    else if (o === opt && !ok) { btn.classList.add('wrong'); btn.innerHTML += ' ✗'; }
   });
 
-  document.getElementById('q-score-display').textContent = quizScore;
-  setTimeout(() => { quizIndex++; renderQuestion(); }, 1300);
+  document.getElementById('q-score').textContent = qScore;
+
+  // Feedback
+  const fb = document.getElementById('q-feedback');
+  fb.innerHTML = `
+    <div class="q-feedback ${ok?'right':'wrong'}">
+      <div class="lbl" style="color:${ok?'var(--green)':'var(--red)'}">${ok?'✓ Benar':'✗ Salah'}</div>
+      <div>${q.explain || 'Jawaban yang benar: ' + q.answer}</div>
+    </div>
+  `;
+
+  setTimeout(() => { qIdx++; renderQ(); }, 1800);
 }
 
 function showResult() {
-  document.getElementById('quiz-active-screen').style.display = 'none';
-  document.getElementById('quiz-result-screen').style.display = 'block';
-  document.getElementById('name-input-area').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('name-wrap').style.display = 'none';
   document.getElementById('save-btn').style.display = 'block';
 
-  const total = quizQuestions.length;
-  const pct = Math.round((quizScore/total)*100);
+  const total = quizQ.length, pct = Math.round((qScore/total)*100);
   const grade = pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'E';
-  document.getElementById('result-emoji').textContent = pct>=70 ? '🏆' : '📚';
-  document.getElementById('result-score-text').textContent = `${quizScore}/${total}`;
-  document.getElementById('result-grade').textContent = `Nilai: ${grade} (${pct}%)`;
-  document.getElementById('result-status').textContent = pct>=75 ? '✅ Kompeten' : '❌ Belum Kompeten (min. 75%)';
+  document.getElementById('res-score').textContent = `${qScore}/${total}`;
+  document.getElementById('res-grade').textContent = `Nilai ${grade} · ${pct}%`;
+  const statusEl = document.getElementById('res-status');
+  statusEl.textContent = pct>=75 ? '✓ Kompeten' : '✗ Belum Kompeten (min. 75%)';
+  statusEl.className = pct>=75 ? 'result-status ok' : 'result-status';
+
+  // Update progress
+  progress.q = (progress.q || 0) + total;
+  if (!progress.best || qScore > progress.best) progress.best = qScore;
+  Store.set('progress', progress);
+}
+
+function showNameInput() {
+  document.getElementById('name-wrap').style.display = 'block';
+  document.getElementById('save-btn').style.display = 'none';
+  document.getElementById('name-input').focus();
 }
 
 function saveScore() {
-  const name = document.getElementById('player-name-input').value.trim();
-  if (!name) return;
-  leaderboard.push({name, score:quizScore, total:quizQuestions.length, time:'—'});
-  leaderboard.sort((a,b) => b.score - a.score);
+  const name = document.getElementById('name-input').value.trim();
+  if (!name) { document.getElementById('name-input').focus(); return; }
+  leaderboard.push({name, score:qScore, total:quizQ.length, time:'—'});
+  leaderboard.sort((a,b) => b.score - a.score || (b.score/b.total) - (a.score/a.total));
   leaderboard = leaderboard.slice(0, 10);
-  document.getElementById('name-input-area').style.display = 'none';
+  Store.set('lb', leaderboard);
+  document.getElementById('name-wrap').style.display = 'none';
   document.getElementById('save-btn').style.display = 'none';
-  renderLeaderboard();
-  showPage('leaderboard');
+  goto('leaderboard');
 }
 
-// ═══════════════════════════════════════════════════════════
+// ============================================================
 // LEADERBOARD
-// ═══════════════════════════════════════════════════════════
+// ============================================================
 function renderLeaderboard() {
-  const medals = ['🥇','🥈','🥉'];
-  document.getElementById('lb-list').innerHTML = leaderboard.map((e,i) => `
-    <div class="lb-card ${i===0?'first':''}">
-      <div class="lb-rank">${medals[i] || (i+1)}</div>
-      <div class="lb-flex">
+  const el = document.getElementById('lb-list');
+  if (!leaderboard.length) { el.innerHTML = '<div class="lb-empty">Belum ada skor. Mulai quiz untuk masuk leaderboard!</div>'; return; }
+  el.innerHTML = leaderboard.map((e,i) => `
+    <div class="lb-item ${i===0?'gold':''}">
+      <div class="lb-rank">${i+1}</div>
+      <div class="lb-info">
         <div class="lb-name">${e.name}</div>
         <div class="lb-time">Waktu: ${e.time}</div>
       </div>
-      <div class="lb-score">
+      <div style="text-align:right">
         <div class="lb-score-big">${e.score}/${e.total}</div>
         <div class="lb-score-pct">${Math.round((e.score/e.total)*100)}%</div>
       </div>
@@ -1028,11 +1536,11 @@ function renderLeaderboard() {
   `).join('');
 }
 
-// ═══════════════════════════════════════════════════════════
+// ============================================================
 // INIT
-// ═══════════════════════════════════════════════════════════
+// ============================================================
 renderHome();
-renderCatalog();
+renderMateri();
 renderLeaderboard();
 </script>
 </body>
